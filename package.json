@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "mysql2": "^2.3.3",
-    "sequelize": "^6.12.2",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.12.4",
     "sequelize-typescript": "^2.1.1",
     "ts-node": "^10.4.0"
   }
