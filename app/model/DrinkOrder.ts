@@ -12,7 +12,7 @@ class DrinkOrder extends Model<DrinkOrder> {
     private bought_cup_order! : boolean;
 
     @Column
-    private size : number;
+    private size! : number;
 
     @Column
     private id_drink! : number;
