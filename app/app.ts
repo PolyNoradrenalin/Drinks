@@ -1,1 +1,1 @@
-console.log("Lol");
+console.log(__dirname + '\\model');
