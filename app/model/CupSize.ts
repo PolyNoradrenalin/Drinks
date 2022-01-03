@@ -1,7 +1,7 @@
-import { Table, Column, Model } from 'sequelize-typescript';
+import { Table, Column, Model, PrimaryKey  } from 'sequelize-typescript';
 
 @Table
 class CupSize extends Model<CupSize> {
-    @Column
+    @Column @PrimaryKey
     private size!: number;
 }
