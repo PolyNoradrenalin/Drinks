@@ -1,17 +1,16 @@
-import { Table, Column, Model, PrimaryKey  } from 'sequelize-typescript';
+import {Table, Column, Model, PrimaryKey} from 'sequelize-typescript';
 
 @Table
 class Drink extends Model<Drink> {
     @Column @PrimaryKey
-    id_drink!: number;
+    private id_drink! : number;
 
     @Column
-    name_drink!: string;
+    private name_drink! : string;
 
     @Column
-    content_drink!: string;
+    private content_drink! : string;
 
     @Column
-    price_drink!: number;
-
+    private price_drink! : number;
 }

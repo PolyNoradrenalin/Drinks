@@ -1,14 +1,13 @@
-import { Table, Column, Model, PrimaryKey } from 'sequelize-typescript';
+import {Table, Column, Model, PrimaryKey} from 'sequelize-typescript';
 
 @Table
 class Resource extends Model<Resource> {
     @Column @PrimaryKey
-    id_resource!: number;
+    private id_resource! : number;
 
     @Column
-    name_resource!: string;
+    private name_resource! : string;
 
     @Column
-    stock_resource!: number;
-
+    private stock_resource! : number;
 }

@@ -1,20 +1,19 @@
-import { Table, Column, Model, PrimaryKey  } from 'sequelize-typescript';
+import {Table, Column, Model, PrimaryKey} from 'sequelize-typescript';
 
 @Table
 class DrinkOrder extends Model<DrinkOrder> {
     @Column @PrimaryKey
-    id_order!: number;
+    private id_order! : number;
 
     @Column
-    canceled!: boolean;
+    private canceled! : boolean;
 
     @Column
-    bought_cup_order!: boolean;
+    private bought_cup_order! : boolean;
 
     @Column
-    size : number;
+    private size : number;
 
     @Column
-    id_drink!: number;
-
+    private id_drink! : number;
 }
