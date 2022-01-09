@@ -2,9 +2,6 @@ import {Table, Column, Model, PrimaryKey} from 'sequelize-typescript';
 
 @Table
 class DrinkOrder extends Model<DrinkOrder> {
-    @Column @PrimaryKey
-    private id_order! : number;
-
     @Column
     private canceled! : boolean;
 
