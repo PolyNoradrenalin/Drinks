@@ -1,4 +1,5 @@
-import {Table, Column, Model, DataType, HasOne, ForeignKey, BelongsTo} from 'sequelize-typescript';
+import {Table, Column, Model, DataType, HasOne, ForeignKey, BelongsTo, HasMany} from 'sequelize-typescript';
+import { DrinkOrder } from './DrinkOrder';
 
 /**
  * Represents a cup type. Has a price, size and number of remaining cups.
@@ -17,6 +18,9 @@ export class Cup extends Model<Cup> {
 
     @Column(DataType.INTEGER)
     private _size!: number;
+
+    @HasMany(() => DrinkOrder)
+    private _drinkOrder!: DrinkOrder[];
 
     // Accessors
     public get price(): number {
@@ -38,5 +42,12 @@ export class Cup extends Model<Cup> {
     }
     public set size(value: number) {
         this._size = value;
+    }
+
+    public get drinkOrder(): DrinkOrder[] {
+        return this._drinkOrder;
+    }
+    public set drinkOrder(value: DrinkOrder[]) {
+        this._drinkOrder = value;
     }
 }

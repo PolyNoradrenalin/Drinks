@@ -1,15 +1,17 @@
 import { Sequelize } from 'sequelize-typescript'
 import { Cup } from '../model/Cup';
+import { Drink } from '../model/Drink';
+import { DrinkOrder } from '../model/DrinkOrder';
 
 const sequelize = new Sequelize({
-  database: 'drinks',
+  database: 'db_drinks',
   dialect: 'mysql',
   username: 'root',
   password: 'root',
 });
 
-sequelize.addModels([Cup]);
+sequelize.addModels([Drink, DrinkOrder, Cup]);
 
-sequelize.sync();
+sequelize.sync({alter: true});
 
 export { sequelize };

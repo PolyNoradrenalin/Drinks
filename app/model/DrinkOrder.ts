@@ -1,16 +1,24 @@
-import {Table, Column, Model, PrimaryKey} from 'sequelize-typescript';
+import {Table, Column, Model, PrimaryKey, HasOne, DataType, BelongsTo, ForeignKey} from 'sequelize-typescript';
+import { Cup } from './Cup';
+import { Drink } from './Drink';
 
 @Table
-class DrinkOrder extends Model<DrinkOrder> {
-    @Column
-    private canceled! : boolean;
+export class DrinkOrder extends Model<DrinkOrder> {
+    @Column(DataType.TINYINT)
+    private canceled!: boolean;
 
-    @Column
-    private bought_cup_order! : boolean;
+    @Column(DataType.TINYINT)
+    private bought_cup_order!: boolean;
 
-    @Column
-    private size! : number;
+    @BelongsTo(() => Cup)
+    private size!: number;
 
-    @Column
-    private id_drink! : number;
+    @ForeignKey(() => Cup)
+    private cupId!: number;
+
+    @BelongsTo(() => Drink)
+    private drink!: Drink;
+
+    @ForeignKey(() => Drink)
+    private drinkId!: number;
 }
