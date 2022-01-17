@@ -7,11 +7,15 @@ const sequelize = new Sequelize({
   database: 'db_drinks',
   dialect: 'mysql',
   username: 'root',
-  password: 'root',
+  password: 'password',
+  define: {
+    freezeTableName: true
+  }
 });
 
-sequelize.addModels([Drink, DrinkOrder, Cup]);
+async function initSequelize() {
+  sequelize.addModels([Drink, DrinkOrder, Cup]);
+  await sequelize.sync({alter: true});
+}
 
-sequelize.sync({alter: true});
-
-export { sequelize };
+export { sequelize, initSequelize };
