@@ -2,23 +2,41 @@ import {Table, Column, Model, PrimaryKey, HasOne, DataType, BelongsTo, ForeignKe
 import { Cup } from './Cup';
 import { Drink } from './Drink';
 
+/**
+ * Represents a drink order.
+ * Contains a cup and a drink.
+ */
 @Table
 export class DrinkOrder extends Model<DrinkOrder> {
     @Column(DataType.TINYINT)
-    private canceled!: boolean;
+    private _canceled!: boolean;
 
     @Column(DataType.TINYINT)
-    private bought_cup_order!: boolean;
+    private _bought_cup!: boolean;
 
     @BelongsTo(() => Cup)
-    private size!: number;
+    size!: Cup;
 
     @ForeignKey(() => Cup)
-    private cupId!: number;
+    cupId!: number;
 
     @BelongsTo(() => Drink)
-    private drink!: Drink;
+    drink!: Drink;
 
     @ForeignKey(() => Drink)
-    private drinkId!: number;
+    drinkId!: number;
+
+    public get canceled(): boolean {
+        return this._canceled;
+    }
+    public set canceled(value: boolean) {
+        this._canceled = value;
+    }
+
+    public get bought_cup(): boolean {
+        return this._bought_cup;
+    }
+    public set bought_cup(value: boolean) {
+        this._bought_cup = value;
+    }
 }
