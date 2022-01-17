@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node app/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "menuTest": "ts-node app/menu.ts"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   },
   "dependencies": {
     "mysql2": "^2.3.3",
+    "readline-sync": "^1.4.10",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.12.4",
     "sequelize-typescript": "^2.1.1",
