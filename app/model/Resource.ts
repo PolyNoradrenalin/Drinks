@@ -1,4 +1,6 @@
-import {Table, Column, Model, PrimaryKey} from 'sequelize-typescript';
+import {Table, Column, Model, PrimaryKey, BelongsToMany} from 'sequelize-typescript';
+import { DrinkOrder } from './DrinkOrder';
+import { UsesResource } from './UsesResource';
 
 @Table
 export class Resource extends Model<Resource> {
@@ -8,6 +10,8 @@ export class Resource extends Model<Resource> {
     @Column
     private _stock_resource! : number;
 
+    @BelongsToMany(() => DrinkOrder, () => UsesResource)
+    drinkOrders: DrinkOrder[]; 
 
     get name_resource(): string {
         return this._name_resource;

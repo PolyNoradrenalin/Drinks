@@ -20,7 +20,7 @@ export class Cup extends Model<Cup> {
     private _size!: number;
 
     @HasMany(() => DrinkOrder)
-    private _drinkOrder!: DrinkOrder[];
+    _drinkOrder!: DrinkOrder[];
 
     // Accessors
     public get price(): number {

@@ -17,7 +17,7 @@ export class Drink extends Model<Drink> {
     private _price!: number;
 
     @HasMany(() => DrinkOrder)
-    private _drinkOrders!: DrinkOrder[];
+    _drinkOrders!: DrinkOrder[];
 
     // Accessors
     public get name(): string {

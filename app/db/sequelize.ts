@@ -9,7 +9,7 @@ const sequelize = new Sequelize({
   database: 'db_drinks',
   dialect: 'mysql',
   username: 'root',
-  password: 'password',
+  password: 'root',
   define: {
     freezeTableName: true
   }

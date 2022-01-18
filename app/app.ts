@@ -29,5 +29,8 @@ initSequelize().then(() => {
     drinkOrder.drink = d;
     drinkOrder.size = c;
 
+    d._drinkOrders.push(drinkOrder);
+    c.
+
     drinkOrder.save();
 })

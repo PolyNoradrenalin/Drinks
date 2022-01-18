@@ -1,32 +1,32 @@
-import {Table, Column, Model, PrimaryKey} from 'sequelize-typescript';
+import {Table, Column, Model, PrimaryKey, ForeignKey} from 'sequelize-typescript';
+import { DrinkOrder } from './DrinkOrder';
+import { Resource } from './Resource';
 
 @Table
 export class UsesResource extends Model<UsesResource> {
-
-    @PrimaryKey @Column
-    private _id_resource! : number;
-
-    @PrimaryKey @Column
-    private _id_order! : number;
+    @ForeignKey(() => Resource)
+    @Column
+    private _resourceId: number;
+    
+    @ForeignKey(() => DrinkOrder)
+    @Column
+    private _drinkOrderId: number;
 
     @Column
     private _quantityUsed! : number;
 
-
-    get id_resource(): number {
-        return this._id_resource;
+    public get resourceId(): number {
+        return this._resourceId;
+    }
+    public set resourceId(value: number) {
+        this._resourceId = value;
     }
 
-    set id_resource(value: number) {
-        this._id_resource = value;
+    public get drinkOrderId(): number {
+        return this._drinkOrderId;
     }
-
-    get id_order(): number {
-        return this._id_order;
-    }
-
-    set id_order(value: number) {
-        this._id_order = value;
+    public set drinkOrderId(value: number) {
+        this._drinkOrderId = value;
     }
 
     get quantityUsed(): number {

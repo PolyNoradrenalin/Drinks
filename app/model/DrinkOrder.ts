@@ -1,6 +1,8 @@
-import {Table, Column, Model, PrimaryKey, HasOne, DataType, BelongsTo, ForeignKey} from 'sequelize-typescript';
+import {Table, Column, Model, PrimaryKey, HasOne, DataType, BelongsTo, ForeignKey, BelongsToMany} from 'sequelize-typescript';
 import { Cup } from './Cup';
 import { Drink } from './Drink';
+import { Resource } from './Resource';
+import { UsesResource } from './UsesResource';
 
 /**
  * Represents a drink order.
@@ -25,6 +27,9 @@ export class DrinkOrder extends Model<DrinkOrder> {
 
     @ForeignKey(() => Drink)
     drinkId!: number;
+
+    @BelongsToMany(() => Resource, () => UsesResource)
+    resources!: Resource[];
 
     public get canceled(): boolean {
         return this._canceled;
