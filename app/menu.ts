@@ -1,41 +1,7 @@
-//import * as readline from 'readline';
-/*
-let rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+import {DrinkOrder} from "./model/DrinkOrder";
 
-console.log("Option 1")
-console.log("Option 2")
-console.log("Option 3")
-rl.question("Pick an option", (userChoice) => {
-    switch(userChoice) {
-        case "help": {
-            console.log("Hi, I'm a help menu")
-            //statements;
-            break;
-        }
-        case "start": {
-            console.log("Starting an order..")
-            //statements;
-            break;
-        }
-        case "exit": {
-            console.log("Exiting the program")
-            rl.close();
-            //statements;
-            break;
-        }
-        default: {
-            console.log("Invalid option");
-            //statements;
-            break;
-        }
-
-    }
-});
-
-*/
+const greenColor = "\x1b[32m";
+const resetColor = "\x1b[0m";
 
 let readLineSync = require('readline-sync');
 
@@ -72,5 +38,64 @@ function help() {
 
 function start() {
     console.log("Starting an order..");
+
+    //Create a DrinkOrder
+    let drinkOrder = new DrinkOrder();
+
     //TODO: choose cup size, drink, resources, cup or no cup
+
+    /******************************DRINK********************************/
+    let userDrink = askQuestion("Choose a drink", getOptions());
+
+
+    /******************************CUP SIZE********************************/
+    let userCupSize = askQuestion("Choose a cup size", getOptions());
+
+    /******************************OWN CUP********************************/
+    let userOwnCup = yesNoQuestion("Do you want to use your own cup? a reduction will be given if you do");
+
+    /******************************RESOURCES********************************/
+    let userSugar = askQuestion("How much sugar?", ["0", "1", "2", "3", "4", "5"]);
+
+}
+
+
+function askQuestion(question: string, options: string[]): number {
+    console.log(greenColor + question);
+
+    for(let i = 1; i <= options.length; i++) {
+        console.log(i + "- " + options[i]);
+    }
+
+    console.log(resetColor);
+
+    let answer = readLineSync.question();
+
+    if(answer >= 1 && answer <= options.length) {
+        return answer;
+    } else {
+        throw new Error("Invalid option");
+    }
+}
+
+function yesNoQuestion(question: string): boolean {
+    console.log(greenColor + question + resetColor);
+
+    let answer = readLineSync.question();
+
+    if(answer === "y") {
+        return true;
+    } else if(answer === "n") {
+        return false;
+    } else {
+        throw new Error("Invalid option");
+    }
+}
+
+function getOptions(arg: DAO): String[] {
+    let options: String[] = [];
+    for(let i = 0; i < arg.length; i++) {
+        options.push(arg.getAll().name);
+    }
+    return options;
 }
