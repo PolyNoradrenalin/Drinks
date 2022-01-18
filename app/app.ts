@@ -30,7 +30,7 @@ initSequelize().then(() => {
     drinkOrder.size = c;
 
     d._drinkOrders.push(drinkOrder);
-    c.
+    c._drinkOrder.push(drinkOrder);
 
     drinkOrder.save();
 })
