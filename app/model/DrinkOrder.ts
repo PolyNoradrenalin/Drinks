@@ -2,7 +2,6 @@ import {Table, Column, Model, PrimaryKey, HasOne, DataType, BelongsTo, ForeignKe
 import { Cup } from './Cup';
 import { Drink } from './Drink';
 import { Resource } from './Resource';
-import { UsesResource } from './UsesResource';
 
 /**
  * Represents a drink order.
@@ -11,37 +10,26 @@ import { UsesResource } from './UsesResource';
 @Table
 export class DrinkOrder extends Model<DrinkOrder> {
     @Column(DataType.TINYINT)
-    private _canceled!: boolean;
+    canceled: boolean;
 
     @Column(DataType.TINYINT)
-    private _bought_cup!: boolean;
+    bought_cup: boolean;
+
+    @Column({
+        type: DataType.DECIMAL,
+        comment: "Currency in Euros"
+    })
+    price: number;
 
     @BelongsTo(() => Cup)
-    size!: Cup;
+    cup: Cup;
 
     @ForeignKey(() => Cup)
-    cupId!: number;
+    cupId: number;
 
     @BelongsTo(() => Drink)
-    drink!: Drink;
+    drink: Drink;
 
     @ForeignKey(() => Drink)
-    drinkId!: number;
-
-    @BelongsToMany(() => Resource, () => UsesResource)
-    resources!: Resource[];
-
-    public get canceled(): boolean {
-        return this._canceled;
-    }
-    public set canceled(value: boolean) {
-        this._canceled = value;
-    }
-
-    public get bought_cup(): boolean {
-        return this._bought_cup;
-    }
-    public set bought_cup(value: boolean) {
-        this._bought_cup = value;
-    }
+    drinkId: number;
 }
