@@ -58,32 +58,36 @@ const randomStrings = [
 
 let readLineSync = require('readline-sync');
 
-let userRes = "";
-while (userRes !== "exit") {
-    console.log(greenColor + "help - help menu");
-    console.log("start - start order");
-    console.log("exit - exit program" + resetColor);
-    userRes = readLineSync.question("Pick an option\n");
-    switch (userRes) {
-        case "help": {
-            help();
-            break;
-        }
-        case "start": {
-            start()
-            break;
-        }
-        case "exit": {
-            console.log("Exiting the program")
-            break;
-        }
-        default: {
-            console.log("Invalid option");
-            break;
-        }
+function main(){
+    let userRes = "";
+    while (userRes !== "exit") {
+        console.log(greenColor + "help - help menu");
+        console.log("start - start order");
+        console.log("exit - exit program" + resetColor);
+        userRes = readLineSync.question("Pick an option\n");
+        switch (userRes) {
+            case "help": {
+                help();
+                break;
+            }
+            case "start": {
+                start()
+                break;
+            }
+            case "exit": {
+                console.log("Exiting the program")
+                break;
+            }
+            default: {
+                console.log("Invalid option");
+                break;
+            }
 
+        }
     }
 }
+
+
 
 function help() {
     console.log("Hi, I'm a help menu")
@@ -144,7 +148,7 @@ function askQuestion(question: string, options: string[]): string {
     }
 }
 
-function yesNoQuestion(question: string): boolean {
+export function yesNoQuestion(question: string): boolean {
     console.log(greenColor + question + resetColor);
 
     let answer = readLineSync.question();
