@@ -30,5 +30,4 @@ initSequelize().then(async () => {
     drinkOrder.then(async value => {
         await d.$add("drinkOrders", value);
     });
-
 })
