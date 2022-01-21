@@ -7,15 +7,23 @@ const assert = require("assert");
 // https://gitlab.com/otmaneguenouni/testing-demo/-/blob/master/test/unit.js
 //+ nyc for coverage
 
-
 //var sandbox = sinon.createSandbox();
 
-function returnFalse() {
+import {returnTwo} from "./example";
+
+function returnFalse(callback: any) {
     return false;
 }
 
+describe("Check return 2", function () {
+    it("Should return 2", function () {
+        let test = 2;
 
-describe("Unit test try", function () {
+        assert.equal(returnTwo(), 2);
+    })
+})
+
+describe("Unit tests try", function () {
     beforeEach(function () {
         //stubbing
         this.stub = sinon.stub();
@@ -31,8 +39,8 @@ describe("Unit test try", function () {
     it("should do something", function () {
         var callback = sinon.fake.returns(true);
         var proxy = returnFalse(callback);
-        var test = true;
-        assert.equal(proxy, true);
+        var test = !true;
+        assert.equal(proxy, test);
     });
 });
 

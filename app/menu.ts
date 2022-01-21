@@ -186,6 +186,3 @@ function getOptions(nb : number): string[] {
     }
     return options;
 }
-
-
-

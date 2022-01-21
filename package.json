@@ -2,10 +2,11 @@
   "name": "drinks",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app/app.ts",
   "scripts": {
     "start": "ts-node app/app.ts",
-    "test": "mocha test/unit.js",
+    "test": "mocha -r ts-node/register tests/**/unit.ts",
+    "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
     "menuTest": "ts-node app/menu.ts"
   },
   "repository": {
@@ -20,21 +21,23 @@
   },
   "homepage": "https://github.com/PolyNoradrenalin/Drinks#readme",
   "devDependencies": {
-    "@types/node": "^17.0.9",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.10",
     "@types/validator": "^13.7.1",
+    "chai": "^4.3.4",
     "mocha": "^9.1.4",
-    "typescript": "^4.5.4"
+    "nyc": "^15.1.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
   },
   "dependencies": {
-    "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "mysql2": "^2.3.3",
-    "nyc": "^15.1.0",
     "readline-sync": "^1.4.10",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.13.0",
     "sequelize-typescript": "^2.1.2",
-    "sinon": "^12.0.1",
-    "ts-node": "^10.4.0"
+    "sinon": "^12.0.1"
   }
 }
