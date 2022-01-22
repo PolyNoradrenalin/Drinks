@@ -8,29 +8,26 @@ import { Cup } from "./model/Cup";
 import { Drink } from "./model/Drink";
 import { DrinkOrder } from "./model/DrinkOrder";
 
-initSequelize().then(() => {
+initSequelize().then(async () => {
     let c = new Cup();
     c.price = 24;
     c.stock = 5;
     c.size = 33;
 
-    c.save();
+    // @ts-ignore
+    const d = new Drink({
+        name: "Coffee",
+        content: "Coffee is an addictive substance that is legal in most countries on Earth.",
+        price: 17.20
+    });
+    await d.save();
 
-    let d = new Drink();
-    d.name = "Coffee";
-    d.content = "Coffee is an addictive substance that is legal in most countries on Earth.";
+    await c.save();
+    await c.$create('drinkOrder', {bought_cup: true, canceled: false, price: 25.21});
 
-    d.save();
+    let drinkOrder = DrinkOrder.findOne();
 
-    let drinkOrder = new DrinkOrder();
-
-    drinkOrder.bought_cup = true;
-    drinkOrder.canceled= false;
-    drinkOrder.drink = d;
-    drinkOrder.size = c;
-
-    d._drinkOrders.push(drinkOrder);
-    c._drinkOrder.push(drinkOrder);
-
-    drinkOrder.save();
+    drinkOrder.then(async value => {
+        await d.$add("drinkOrders", value);
+    });
 })
