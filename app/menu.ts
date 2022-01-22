@@ -58,35 +58,39 @@ const randomStrings = [
 
 let readLineSync = require('readline-sync');
 
-let userRes = "";
-while (userRes !== "exit") {
-    console.log(greenColor + "help - help menu");
-    console.log("start - start order");
-    console.log("exit - exit program" + resetColor);
-    userRes = readLineSync.question("Pick an option\n");
-    switch (userRes) {
-        case "help": {
-            help();
-            break;
-        }
-        case "start": {
-            start()
-            break;
-        }
-        case "exit": {
-            console.log("Exiting the program")
-            break;
-        }
-        default: {
-            console.log("Invalid option");
-            break;
-        }
+function main(){
+    let userRes = "";
+    while (userRes !== "exit") {
+        console.log(greenColor + "help - help menu");
+        console.log("start - start order");
+        console.log("exit - exit program" + resetColor);
+        userRes = readLineSync.question("Pick an option\n");
+        switch (userRes) {
+            case "help": {
+                help();
+                break;
+            }
+            case "start": {
+                start()
+                break;
+            }
+            case "exit": {
+                console.log("Exiting the program")
+                break;
+            }
+            default: {
+                console.log("Invalid option");
+                break;
+            }
 
+        }
     }
 }
 
+
+
 function help() {
-    console.log("Hi, I'm a help menu")
+    console.log("Hi, I'm an help menu")
 }
 
 function start() {
@@ -125,8 +129,18 @@ function start() {
 
 }
 
-
+/**
+ * Ask a question to the user and return the answer
+ * @param question the question to ask
+ * @param options the options to choose from
+ * @returns {string} the answer chosen from the options
+ * @throws {Error} if the answer is not in the options or if there's no options/answers
+ */
 function askQuestion(question: string, options: string[]): string {
+    if(options == null || options.length == 0){
+        throw new Error("No options");
+    }
+
     console.log(greenColor + question);
 
     for(let i = 0; i < options.length; i++) {
@@ -144,7 +158,14 @@ function askQuestion(question: string, options: string[]): string {
     }
 }
 
-function yesNoQuestion(question: string): boolean {
+
+/**
+ * Ask a yes/no question to the user
+ * @param question the question to ask
+ * @returns {boolean} true if the answer is yes, false if the answer is no
+ * @throws Error if the answer is not yes or no (y or n)
+ */
+export function yesNoQuestion(question: string): boolean {
     console.log(greenColor + question + resetColor);
 
     let answer = readLineSync.question();
@@ -158,7 +179,14 @@ function yesNoQuestion(question: string): boolean {
     }
 }
 
-function rangeQuestion(question: string, min: number, max: number): number {
+/**
+ * Ask a question with a range of possible answers
+ * @param question the question to ask
+ * @param min the minimum value of the accepted range
+ * @param max the maximum value of the accepted range
+ * @returns the answer the user gave, as a number
+ */
+export function rangeQuestion(question: string, min: number, max: number): number {
     console.log(greenColor + question + resetColor);
 
     let answer = readLineSync.question();
@@ -178,14 +206,19 @@ function rangeQuestion(question: string, min: number, max: number): number {
     return options;
 }*/
 
-
+/**
+ * Returns an array of strings with the names of the options as such:
+ * i - option i
+ * @param nb the number of options to get
+ * @returns an array of strings containing the names of the options
+ */
 function getOptions(nb : number): string[] {
+    if(nb < 0) {
+        throw new Error("Invalid number of options");
+    }
     let options: string[] = [];
     for(let i = 0; i < nb; i++) {
         options.push(randomStrings[i]);
     }
     return options;
 }
-
-
-
