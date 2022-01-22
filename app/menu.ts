@@ -130,7 +130,7 @@ function start() {
 }
 
 
-function askQuestion(question: string, options: string[]): string {
+export function askQuestion(question: string, options: string[]): string {
     console.log(greenColor + question);
 
     for(let i = 0; i < options.length; i++) {
@@ -162,7 +162,7 @@ export function yesNoQuestion(question: string): boolean {
     }
 }
 
-function rangeQuestion(question: string, min: number, max: number): number {
+export function rangeQuestion(question: string, min: number, max: number): number {
     console.log(greenColor + question + resetColor);
 
     let answer = readLineSync.question();
