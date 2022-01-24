@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node app/app.ts",
     "test": "mocha -r ts-node/register tests/**/unit.ts",
-    "coverage": "nyc -r lcov -e .ts -x \"*.ts\" npm run test",
+    "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
     "menuTest": "ts-node app/menu.ts"
   },
   "repository": {

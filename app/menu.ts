@@ -129,6 +129,7 @@ function start() {
 
 }
 
+
 /**
  * Ask a question to the user and return the answer
  * @param question the question to ask
@@ -136,7 +137,7 @@ function start() {
  * @returns {string} the answer chosen from the options
  * @throws {Error} if the answer is not in the options or if there's no options/answers
  */
-function askQuestion(question: string, options: string[]): string {
+export function askQuestion(question: string, options: string[]): string {
     if(options == null || options.length == 0){
         throw new Error("No options");
     }
@@ -178,6 +179,7 @@ export function yesNoQuestion(question: string): boolean {
         throw new Error("Invalid option");
     }
 }
+
 
 /**
  * Ask a question with a range of possible answers
