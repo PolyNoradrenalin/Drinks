@@ -1,43 +1,36 @@
 {
-  "name": "drinks",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app/app.ts",
-  "scripts": {
-    "start": "ts-node app/app.ts",
-    "test": "mocha -r ts-node/register tests/**/unit.ts",
-    "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
-    "menuTest": "ts-node app/menu.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PolyNoradrenalin/Drinks.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PolyNoradrenalin/Drinks/issues"
-  },
-  "homepage": "https://github.com/PolyNoradrenalin/Drinks#readme",
-  "devDependencies": {
-    "@types/chai": "^4.3.0",
-    "@types/mocha": "^9.1.0",
-    "@types/node": "^17.0.10",
-    "@types/validator": "^13.7.1",
-    "chai": "^4.3.4",
-    "mocha": "^9.1.4",
-    "nyc": "^15.1.0",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.5"
-  },
-  "dependencies": {
-    "chai-as-promised": "^7.1.1",
-    "mysql2": "^2.3.3",
-    "readline-sync": "^1.4.10",
-    "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.13.0",
-    "sequelize-typescript": "^2.1.2",
-    "sinon": "^12.0.1"
-  }
+   "name": "drinks",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "start": "ts-node src/app.ts",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "menuTest": "ts-node src/view/menu.ts",
+      "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/PolyNoradrenalin/Drinks.git"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/PolyNoradrenalin/Drinks/issues"
+   },
+   "homepage": "https://github.com/PolyNoradrenalin/Drinks#readme",
+   "devDependencies": {
+      "@types/node": "^8.0.29",
+      "@types/validator": "^13.7.1",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   },
+   "dependencies": {
+      "mysql2": "^2.3.3",
+      "readline-sync": "^1.4.10",
+      "reflect-metadata": "^0.1.10",
+      "ts-node": "^10.4.0",
+      "typeorm": "0.2.41"
+   }
 }
