@@ -2,12 +2,11 @@ let readLineSync = require('readline-sync');
 
 const sinon = require("sinon");
 const chai = require("chai");
-const expect = chai.expect;
 //use chai-as-promised
 chai.use(require("chai-as-promised"));
 const assert = require("assert");
 
-import {askQuestion, rangeQuestion, yesNoQuestion} from "../app/menu";
+import {askQuestion, rangeQuestion, yesNoQuestion} from "../src/view/menu";
 
 // https://gitlab.com/otmaneguenouni/testing-demo/-/blob/master/test/unit.js
 //+ nyc for coverage
