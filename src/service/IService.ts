@@ -1,8 +1,9 @@
-import {Drink} from "../model/Drink";
-import {Cup} from "../model/Cup";
-import {Resource} from "../model/Resource";
-import {DrinkOrder} from "../model/DrinkOrder";
+import {Drink} from "../entity/Drink";
+import {Cup} from "../entity/Cup";
+import {Resource} from "../entity/Resource";
+import {DrinkOrder} from "../entity/DrinkOrder";
 
+// TODO: documentation
 export interface IService {
     getAllDrinks(): Drink[];
     getAllCups(): Cup[];

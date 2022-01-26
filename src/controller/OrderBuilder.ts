@@ -1,8 +1,8 @@
-import {DrinkOrder} from "../model/DrinkOrder";
-import {Drink} from "../model/Drink";
-import {Cup} from "../model/Cup";
+import {DrinkOrder} from "../entity/DrinkOrder";
+import {Drink} from "../entity/Drink";
+import {Cup} from "../entity/Cup";
 
-
+// TODO: documentation
 export class OrderBuilder{
     drinkOrder: DrinkOrder;
 

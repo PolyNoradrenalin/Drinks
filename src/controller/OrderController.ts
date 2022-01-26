@@ -1,12 +1,11 @@
 import {IService} from '../service/IService';
 import {SequelizeService} from "../service/SequalizeService";
-import {Drink} from "../model/Drink";
-import {Cup} from "../model/Cup";
-import {Resource} from "../model/Resource";
+import {Drink} from "../entity/Drink";
+import {Cup} from "../entity/Cup";
+import {Resource} from "../entity/Resource";
 import {OrderBuilder} from "./OrderBuilder";
 
-
-
+// TODO: documentation
 export class OrderController{
 
     service: IService = new SequelizeService();
