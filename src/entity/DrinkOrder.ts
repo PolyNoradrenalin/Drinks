@@ -17,6 +17,7 @@ export class DrinkOrder {
     @Column("boolean")
     bought_cup: boolean;
 
+    // TODO: Calculate price automatically when cup and drink are set.
     @Column({
         type: "decimal",
         comment: "Currency in Euros"
