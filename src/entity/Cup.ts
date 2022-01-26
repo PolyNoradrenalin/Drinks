@@ -7,20 +7,20 @@ import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 @Entity()
 export class Cup {
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column({
         type: "decimal",
         comment: "Currency in Euros"
     })
-    price: number;
+    public price: number;
 
     @Column("int")
-    stock: number;
+    public stock: number;
 
     @Column("int")
-    size: number;
+    public size: number;
 
-    @OneToMany(type => DrinkOrder, drinkOrderCup => drinkOrderCup.cup)
-    orders: DrinkOrder[];
+    @OneToMany(() => DrinkOrder, drinkOrderCup => drinkOrderCup.cup)
+    public orders: DrinkOrder[];
 }

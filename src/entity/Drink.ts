@@ -4,25 +4,25 @@ import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 @Entity()
 export class Drink {
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column({
         length: 30
     })
-    name: string;
+    public name: string;
 
     @Column({
         length: 200
     })
-    content: string;
+    public content: string;
 
     @Column({
         type: "decimal",
         comment: "Currency in Euros"    
     })
-    price: number;
+    public price: number;
 
-    @OneToMany(type => DrinkOrder, drinkOrderDrink => drinkOrderDrink.drink)
-    drinkOrders: DrinkOrder[];
+    @OneToMany(() => DrinkOrder, drinkOrderDrink => drinkOrderDrink.drink)
+    public drinkOrders: DrinkOrder[];
 
 }

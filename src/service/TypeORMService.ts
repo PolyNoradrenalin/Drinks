@@ -14,28 +14,28 @@ export class TypeORMService implements IService {
     /**
      * @inheritDoc IService#getAllDrinks
      */
-    getAllDrinks(): Drink[] {
+    public getAllDrinks(): Drink[] {
         throw new Error("Not Implemented");
     }
 
     /**
      * @inheritDoc IService#getAllCups
      */
-    getAllCups(): Cup[] {
+    public getAllCups(): Cup[] {
         throw new Error("Not Implemented");
     }
 
     /**
      * @inheritDoc IService#getAllResources
      */
-    getAllResources(): Resource[] {
+    public getAllResources(): Resource[] {
         throw new Error("Not Implemented");
     }
 
     /**
      * @inheritDoc IService#save
      */
-    save(drinkOrder: DrinkOrder): void {
+    public save(drinkOrder: DrinkOrder): void {
         throw new Error("Not Implemented");
     }
 
@@ -43,13 +43,13 @@ export class TypeORMService implements IService {
      * Update the quantity of a cup resource.
      * @param cup The cup to update.
      */
-    update(cup: Cup): void;
+    public update(cup: Cup): void;
     /**
      * Update the quantity of a drink resource like sugar or water.
      * @param resource The resource to update.
      */
-    update(resource: Resource): void;
-    update(obj: Cup | Resource): void {
+    public update(resource: Resource): void;
+    public update(obj: Cup | Resource): void {
         throw new Error("Not Implemented");
         if (obj instanceof Cup) {
             console.log('update cup');

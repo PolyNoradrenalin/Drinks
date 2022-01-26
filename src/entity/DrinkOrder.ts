@@ -9,24 +9,24 @@ import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 @Entity()
 export class DrinkOrder {
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column("boolean")
-    canceled: boolean;
+    public canceled: boolean;
 
     @Column("boolean")
-    bought_cup: boolean;
+    public bought_cup: boolean;
 
     // TODO: Calculate price automatically when cup and drink are set.
     @Column({
         type: "decimal",
         comment: "Currency in Euros"
     })
-    price: number;
+    public price: number;
 
-    @ManyToOne(type => Cup, cup => cup.orders)
-    cup: Cup;
+    @ManyToOne(() => Cup, cup => cup.orders)
+    public cup: Cup;
 
-    @ManyToOne(type => Drink, drink => drink.drinkOrders)
-    drink: Drink;
+    @ManyToOne(() => Drink, drink => drink.drinkOrders)
+    public drink: Drink;
 }
