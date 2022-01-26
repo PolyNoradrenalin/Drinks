@@ -4,6 +4,7 @@ import {Drink} from "../entity/Drink";
 import {Cup} from "../entity/Cup";
 import {Resource} from "../entity/Resource";
 import {OrderBuilder} from "./OrderBuilder";
+import {DrinkOrder} from "../entity/DrinkOrder";
 
 /**
  * Controller used to handle a drink order.
@@ -69,10 +70,11 @@ export class OrderController{
     }
 
     /**
-     * Get the choice of confirming or cancelling the order.
+     * Gets the choice of confirming or cancelling the order.
+     * This will also check if the given order is correct (all fields are correct)
      * @returns {boolean} True if we want to confirm the order, false otherwise.
      */
-    getConfirmation(): boolean{
+    getConfirmation(order : DrinkOrder): boolean{
         throw new Error("Not Implemented");
     }
 
