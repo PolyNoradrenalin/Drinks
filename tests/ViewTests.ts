@@ -6,7 +6,7 @@ const chai = require("chai");
 chai.use(require("chai-as-promised"));
 const assert = require("assert");
 
-import {choiceQuestion, rangeQuestion, yesNoQuestion} from "../src/view/view";
+import {ConsoleView} from "../src/view/view";
 
 // https://gitlab.com/otmaneguenouni/testing-demo/-/blob/master/test/unit.js
 //+ nyc for coverage
@@ -14,11 +14,14 @@ import {choiceQuestion, rangeQuestion, yesNoQuestion} from "../src/view/view";
 //var sandbox = sinon.createSandbox();
 
 let test;
+let view : ConsoleView;
 
 describe("Yes/No Question function tests", function () {
 
+
     beforeEach(function () {
         sinon.stub(readLineSync, "question");
+        view = new ConsoleView();
         //prevent console.log from printing
         test = sinon.stub(console, "log");
     });
@@ -30,19 +33,19 @@ describe("Yes/No Question function tests", function () {
 
     it("Should return true when y is written", function () {
         readLineSync.question.returns("y");
-        let result = yesNoQuestion("Do you want to continue?");
+        let result = view.yesNoQuestion("Do you want to continue?");
         assert.equal(result, true);
     });
 
     it("Should return false when n is written", function () {
         readLineSync.question.returns("n");
-        let result = yesNoQuestion("Do you want to continue?");
+        let result = view.yesNoQuestion("Do you want to continue?");
         assert.equal(result, false);
     });
 
     it("Should throw an error when a wrong command is written", function () {
         readLineSync.question.returns("Hello");
-        assert.throws( ()=>yesNoQuestion("Do you want to continue?"), Error);
+        assert.throws( () => view.yesNoQuestion("Do you want to continue?"), Error);
     });
 
 })
@@ -62,18 +65,18 @@ describe("Range questions function tests", function () {
 
     it("Should return a number when a number is written", function () {
         readLineSync.question.returns("3");
-        let result = rangeQuestion("How much X do you want (1-10)?", 1, 10);
+        let result = view.rangeQuestion("How much X do you want (1-10)?", 1, 10);
         assert.equal(result, 3);
     });
 
     it("Should throw an error when a too big number is written", function () {
         readLineSync.question.returns("15");
-        assert.throws( ()=>rangeQuestion("How much X do you want (1-10)?",1,10), Error);
+        assert.throws( ()=> view.rangeQuestion("How much X do you want (1-10)?",1,10), Error);
     });
 
     it("Should throw an error when a too small number is written", function () {
         readLineSync.question.returns("0");
-        assert.throws( ()=>rangeQuestion("How much X do you want (1-10)?",1,10), Error);
+        assert.throws( ()=> view.rangeQuestion("How much X do you want (1-10)?",1,10), Error);
     });
 
     /*
@@ -108,23 +111,23 @@ describe("Ask Question function tests", function () {
 
     it("Should return a number when a number is written", function () {
         readLineSync.question.returns("2");
-        let result = choiceQuestion<number>("What do you want?", this.randomstrings);
+        let result : number = view.choiceQuestion<number>("What do you want?", this.randomstrings);
         assert.equal(result, this.randomstrings[1]);
     });
 
     it("Should throw an error when a wrong command is written", function () {
         readLineSync.question.returns("Hello");
-        assert.throws( ()=>choiceQuestion("What do you want?", this.randomstrings), Error);
+        assert.throws(() => view.choiceQuestion<number>("What do you want?", this.randomstrings), Error);
     });
 
     it("Should throw an error when a too big number is written", function () {
         readLineSync.question.returns("6");
-        assert.throws( ()=>choiceQuestion("What do you want?", this.randomstrings), Error);
+        assert.throws(() => view.choiceQuestion<number>("What do you want?", this.randomstrings), Error);
     });
 
     it("Should throw an error when a too small number is written", function () {
         readLineSync.question.returns("0");
-        assert.throws( ()=>choiceQuestion("What do you want?", this.randomstrings), Error);
+        assert.throws(() => view.choiceQuestion("What do you want?", this.randomstrings), Error);
     });
 
 })
