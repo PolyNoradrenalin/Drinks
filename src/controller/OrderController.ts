@@ -16,26 +16,26 @@ export class OrderController{
 
 
     getDrinkSelection(): Drink{
-        return new Drink();
+        throw new Error("Not Implemented");
     }
 
     getSizeSelection(): Cup{
-        return new Cup();
+        throw new Error("Not Implemented");
     }
 
     getCupChoice(): boolean{
-        return true;
+        throw new Error("Not Implemented");
     }
 
     getSugarChoice(): number{
-        return 1;
+        throw new Error("Not Implemented");
     }
 
     getConfirmation(): boolean{
-        return true;
+        throw new Error("Not Implemented");
     }
 
     startOrder(): void{
-
+        throw new Error("Not Implemented");
     }
 }

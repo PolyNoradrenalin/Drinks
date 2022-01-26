@@ -8,23 +8,25 @@ import {DrinkOrder} from "../entity/DrinkOrder";
 // TODO: documentation
 export class SequelizeService implements IService {
     getAllCups(): Cup[] {
-        return [];
+        throw new Error("Not Implemented");
     }
 
     getAllDrinks(): Drink[] {
-        return [];
+        throw new Error("Not Implemented");
     }
 
     getAllResources(): Resource[] {
-        return [];
+        throw new Error("Not Implemented");
     }
 
     save(drinkOrder: DrinkOrder): void {
+        throw new Error("Not Implemented");
     }
 
     update(cup: Cup): void;
     update(resource: Resource): void;
     update(cup: Cup | Resource): void {
+        throw new Error("Not Implemented");
         if (cup instanceof Cup) {
             console.log('update cup');
         } else if (cup instanceof Resource) {

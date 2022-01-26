@@ -7,23 +7,26 @@ export class OrderBuilder{
     drinkOrder: DrinkOrder;
 
     setDrink(drink: Drink){
-
+        throw new Error("Not Implemented");
     }
 
     setCup(cup: Cup){
+        throw new Error("Not Implemented");
 
     }
 
     setCupChoice(wantsCup: boolean){
+        throw new Error("Not Implemented");
 
     }
 
     setSugarChoice(sugarCount: number){
+        throw new Error("Not Implemented");
 
     }
 
     getOrder(): DrinkOrder{
-        return this.drinkOrder;
+        throw new Error("Not Implemented");
     }
 
 }
