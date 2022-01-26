@@ -6,7 +6,7 @@
    "scripts": {
       "start": "ts-node src/app.ts",
       "test": "mocha -r ts-node/register tests/**/unit.ts",
-      "menuTest": "ts-node src/view/menu.ts",
+      "menuTest": "ts-node src/view/view.ts",
       "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
    },
    "repository": {
@@ -31,7 +31,8 @@
       "chai-as-promised": "^7.1.1",
       "mocha": "^9.1.0",
       "@types/mocha": "^9.1.0",
-      "nyc": "^15.1.0"
+      "nyc": "^15.1.0",
+      "@types/readline-sync": "^1.4.4"
    },
    "dependencies": {
       "mysql2": "^2.3.3",

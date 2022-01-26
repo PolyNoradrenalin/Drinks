@@ -6,7 +6,7 @@ const chai = require("chai");
 chai.use(require("chai-as-promised"));
 const assert = require("assert");
 
-import {askQuestion, rangeQuestion, yesNoQuestion} from "../src/view/menu";
+import {choiceQuestion, rangeQuestion, yesNoQuestion} from "../src/view/view";
 
 // https://gitlab.com/otmaneguenouni/testing-demo/-/blob/master/test/unit.js
 //+ nyc for coverage
@@ -88,13 +88,13 @@ describe("Range questions function tests", function () {
 
 describe("Ask Question function tests", function () {
     before(function () {
-        this.randomstrings = [
-            "m3hxdpxn1e",
-            "oqo55dxjkt",
-            "z9sqy90gla",
-            "ojicxncb38",
-            "qht9frrax7"];
+        this.randomstrings = new Map<string, number>([
+            ["numero1", 1],
+            ["numero2", 2],
+            ["numero3", 3],
+        ]);
     });
+
     beforeEach(function () {
         sinon.stub(readLineSync, "question");
         //prevent console.log from printing
@@ -108,23 +108,23 @@ describe("Ask Question function tests", function () {
 
     it("Should return a number when a number is written", function () {
         readLineSync.question.returns("2");
-        let result = askQuestion("What do you want?", this.randomstrings);
+        let result = choiceQuestion<number>("What do you want?", this.randomstrings);
         assert.equal(result, this.randomstrings[1]);
     });
 
     it("Should throw an error when a wrong command is written", function () {
         readLineSync.question.returns("Hello");
-        assert.throws( ()=>askQuestion("What do you want?", this.randomstrings), Error);
+        assert.throws( ()=>choiceQuestion("What do you want?", this.randomstrings), Error);
     });
 
     it("Should throw an error when a too big number is written", function () {
         readLineSync.question.returns("6");
-        assert.throws( ()=>askQuestion("What do you want?", this.randomstrings), Error);
+        assert.throws( ()=>choiceQuestion("What do you want?", this.randomstrings), Error);
     });
 
     it("Should throw an error when a too small number is written", function () {
         readLineSync.question.returns("0");
-        assert.throws( ()=>askQuestion("What do you want?", this.randomstrings), Error);
+        assert.throws( ()=>choiceQuestion("What do you want?", this.randomstrings), Error);
     });
 
 })
