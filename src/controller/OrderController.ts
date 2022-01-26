@@ -51,7 +51,7 @@ export class OrderController {
      * Get the list of drinks and ask the view to choose one.
      * @returns {Drink} The drink chosen by the user.
      */
-    private getDrinkSelection() : Drink {
+    public getDrinkSelection(drinks : Drink[]) : Drink {
         throw new Error("Not Implemented");
     }
 
@@ -59,7 +59,7 @@ export class OrderController {
      * Get the list of cup size and ask the view to choose one.
      * @returns {Cup} The cup/cup size chosen by the user.
      */
-    private getSizeSelection() : Cup {
+    public getSizeSelection() : Cup {
         throw new Error("Not Implemented");
     }
 
@@ -67,7 +67,7 @@ export class OrderController {
      * Get the choice of using a cup or not.
      * @returns {boolean} True if we want to use a cup, false otherwise.
      */
-    private getCupChoice() : boolean {
+    public getCupChoice() : boolean {
         throw new Error("Not Implemented");
     }
 
@@ -75,7 +75,7 @@ export class OrderController {
      * Get the amount of sugar to add to the drink.
      * @returns {number} The amount of sugar to add.
      */
-    private getSugarChoice() : number {
+    public getSugarChoice() : number {
         throw new Error("Not Implemented");
     }
 
@@ -84,7 +84,7 @@ export class OrderController {
      * This will also check if the given order is correct (all fields are correct)
      * @returns {boolean} True if we want to confirm the order, false otherwise.
      */
-    private getConfirmation(order : DrinkOrder) : boolean {
+    public getConfirmation(order : DrinkOrder) : boolean {
         throw new Error("Not Implemented");
     }
 }
