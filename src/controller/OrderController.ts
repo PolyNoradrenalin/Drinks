@@ -4,6 +4,7 @@ import {Cup} from "../entity/Cup";
 import {Resource} from "../entity/Resource";
 import {OrderBuilder} from "./OrderBuilder";
 import {DrinkOrder} from "../entity/DrinkOrder";
+import {ConsoleView} from "../view/view";
 
 /**
  * Controller used to handle a drink order.
@@ -14,6 +15,11 @@ export class OrderController {
      * The service used to handle the database.
      */
     private service : IService
+
+    /**
+     * The view used by the controller to interact with the user.
+     */
+    private view : ConsoleView;
 
     /**
      * The list of drinks.
@@ -36,8 +42,9 @@ export class OrderController {
     private orderBuilder : OrderBuilder;
 
 
-    constructor(service : IService) {
+    constructor(service : IService, view : ConsoleView) {
         this.service = service;
+        this.view = view;
     }
 
     /**
@@ -52,7 +59,18 @@ export class OrderController {
      * @returns {Drink} The drink chosen by the user.
      */
     public getDrinkSelection(drinks : Drink[]) : Drink {
-        throw new Error("Not Implemented");
+        if (drinks == null)
+            throw new Error("List of drinks is uninitialized.");
+
+        if (drinks.length === 0)
+            throw new Error("List of drinks is empty.");
+
+        let choices = new Map<string, Drink>();
+        drinks.forEach((drink) => {
+            choices.set(drink.name, drink);
+        });
+
+        return this.view.choiceQuestion<Drink>("Which drink do you want ?", choices);
     }
 
     /**

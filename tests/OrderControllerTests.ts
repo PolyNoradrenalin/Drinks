@@ -10,23 +10,25 @@ import {OrderController} from "../src/controller/OrderController";
 import {TypeORMService} from "../src/service/TypeORMService";
 import {IService} from "../src/service/IService";
 import {ConsoleView} from "../src/view/view";
-import {SinonStub} from "sinon";
+import {SinonMock, SinonStubbedInstance} from "sinon";
 
 describe("getDrinkSelection", function () {
+    const sandbox = sinon.createSandbox();
+
     let controller : OrderController;
-    let service : IService;
-    let choiceQuestionStub : SinonStub;
-    let view : ConsoleView;
+    let mockController : SinonMock;
+    let service : SinonStubbedInstance<IService>;
+    let view : SinonStubbedInstance<ConsoleView>;
 
     beforeEach(function () {
-        view = new ConsoleView();
-        service = sinon.createStubInstance(TypeORMService);
-        choiceQuestionStub = sinon.stub(view, "choiceQuestion");
-        controller = new OrderController(service);
+        view = sandbox.createStubInstance(ConsoleView);
+        service = sandbox.createStubInstance(TypeORMService);
+        controller = new OrderController(service, view);
+        mockController = sandbox.mock(controller);
     });
 
     afterEach(function () {
-        choiceQuestionStub.restore();
+        sandbox.restore();
     });
 
     it("Should return the correct drink when a correct number is entered given a filled list", function () {
@@ -37,14 +39,16 @@ describe("getDrinkSelection", function () {
         drink.content = "That drink TESTS good.";
 
         let drink1 = new Drink();
-        drink.id = 0;
-        drink.name = "Another console drink";
-        drink.price = 20;
-        drink.content = "This is TESTY.";
+        drink1.id = 0;
+        drink1.name = "Another console drink";
+        drink1.price = 20;
+        drink1.content = "This is TESTY.";
 
-        choiceQuestionStub.returns(drink);
+        view.choiceQuestion.returns(drink);
 
         assert.equal(controller.getDrinkSelection([drink, drink1]), drink);
+
+        mockController.verify();
     });
 
     it("Should throw an exception when given an empty list", function () {
@@ -52,6 +56,7 @@ describe("getDrinkSelection", function () {
     });
 
     it("Should throw an exception when given an uninitialized list", function () {
+
         assert.throws(() => { controller.getDrinkSelection(null) });
     });
 });
