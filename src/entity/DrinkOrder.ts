@@ -24,6 +24,12 @@ export class DrinkOrder {
     })
     public price: number;
 
+    @Column({
+        type: "decimal",
+        comment: "amount of sugar"
+    })
+    public sugarAmount: number;
+
     @ManyToOne(() => Cup, cup => cup.orders)
     public cup: Cup;
 
