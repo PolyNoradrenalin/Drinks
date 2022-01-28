@@ -1,5 +1,3 @@
-// TODO: Make this a class maybe?
-
 const greenColor = "\x1b[32m";
 const resetColor = "\x1b[0m";
 let readLineSync = require('readline-sync');

@@ -74,7 +74,7 @@ export class OrderBuilder {
         order.cup = this._cup;
         order.bought_cup = this._wantsCup;
         order.sugarAmount = this._sugarAmount;
-        order.price = this._wantsCup ? this._drink.price * this._cup.size - this._cup.price : this._drink.price * this._cup.size;
+        order.price = !this._wantsCup ? this._drink.price * this._cup.size - this._cup.price : this._drink.price * this._cup.size;
 
         return order;
     }

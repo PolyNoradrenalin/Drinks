@@ -287,8 +287,7 @@ describe("OrderController", function () {
         });
 
         afterEach(function () {
-            mockController.restore();
-            serviceMock.restore();
+            sinon.restore();
         });
 
         it("Should confirm the order given correct answers", async function () {

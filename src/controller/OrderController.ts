@@ -121,8 +121,6 @@ export class OrderController {
                     this.service.updateStock(order.cup);
                     this.service.updateStock(sugarResource);
                     this.service.updateStock(waterResource);
-
-                    resolve();
                 }
 
                 this.service.save(order);
