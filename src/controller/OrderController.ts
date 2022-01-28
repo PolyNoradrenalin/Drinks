@@ -71,24 +71,23 @@ export class OrderController {
                 chosenDrink = this.getDrinkSelection(drinks);
                 this.orderBuilder.drink = chosenDrink;
 
-
-            // Remove cups with a size greater than the amount in waterResource
-            for(let i = 0; i < cups.length; i++) {
-                if (waterResource.stock_resource < cups[i].size) {
-                    cups.splice(i, 1);
-                    i--;
+                // Remove cups with a size greater than the amount in waterResource
+                for(let i = 0; i < cups.length; i++) {
+                    if (waterResource.stock_resource < cups[i].size) {
+                        cups.splice(i, 1);
+                        i--;
+                    }
                 }
-            }
 
-            chosenCupSize = this.getSizeSelection(cups);
-            this.orderBuilder.cup = chosenCupSize;
+                chosenCupSize = this.getSizeSelection(cups);
+                this.orderBuilder.cup = chosenCupSize;
 
 
                 if(chosenCupSize.stock === 0) {
                     this.view.displayMessage("No more cups left in stock for this size");
                     this.view.displayMessage("Defaulting to using no cup, cancel at the end if you need to.");
                     chosenCup = false;
-                }else{
+                } else{
                     chosenCup = this.getCupChoice(chosenCupSize);
                 }
                 this.orderBuilder.setCupChoice(chosenCup);
@@ -97,7 +96,7 @@ export class OrderController {
                     this.view.displayMessage("No more sugar left in stock");
                     this.view.displayMessage("Defaulting to using no sugar, cancel at the end if you need to.");
                     chosenSugar = 0;
-                }else {
+                } else {
                     let correct = false;
                     do {
                         chosenSugar = this.getSugarSelection(sugarResource);
