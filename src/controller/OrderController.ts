@@ -5,6 +5,7 @@ import {Resource} from "../entity/Resource";
 import {OrderBuilder} from "./OrderBuilder";
 import {DrinkOrder} from "../entity/DrinkOrder";
 import {ConsoleView} from "../view/view";
+import {promise} from "sinon";
 
 /**
  * Controller used to handle a drink order.
@@ -44,40 +45,60 @@ export class OrderController {
     /**
      * Start the order process, getting the information using the service, then the user choices.
      */
-    public startOrder() : void {
-        let drinks : Drink[] = this.service.getAllDrinks();
-        let cups : Cup[] = this.service.getAllCups();
-        let resource : Resource = this.service.getAllResources().find(r => r.name_resource === "Sugar");
+    public async startOrder(): Promise<void> {
+        let drinkPromise = this.service.getAllDrinks();
+        let cupsPromise = this.service.getAllCups();
+        let resourcesPromise = this.service.getAllResources();
 
-        let chosenDrink : Drink;
-        let chosenCupSize : Cup;
-        let chosenSugar : number;
-        let chosenCup : boolean;
+        let promise = Promise.all([drinkPromise, cupsPromise, resourcesPromise]);
+
+        let result = await promise;
+        let drinks: Drink[] = result[0];
+        let cups: Cup[] = result[1];
+        let resource: Resource[] = result[2];
+        let sugarResource = resource.find(r => r.name_resource === "Sugar");
+        let waterResource = resource.find(r => r.name_resource === "Water");
+
+        let chosenDrink: Drink;
+        let chosenCupSize: Cup;
+        let chosenSugar: number;
+        let chosenCup: boolean;
         this.orderBuilder = new OrderBuilder();
-        try{
+        try {
             chosenDrink = this.getDrinkSelection(drinks);
             this.orderBuilder.drink = chosenDrink;
 
+            // TODO: check for water remaining in DB
             chosenCupSize = this.getSizeSelection(cups);
             this.orderBuilder.cup = chosenCupSize;
 
+            // TODO check for cup stock remaining in DB
             chosenCup = this.getCupChoice(chosenCupSize);
             this.orderBuilder.setCupChoice(chosenCup);
 
-            chosenSugar = this.getSugarSelection(resource , 5);
+            // TODO: check for sugar remaining in DB
+            chosenSugar = this.getSugarSelection(sugarResource);
             this.orderBuilder.setSugarChoice(chosenSugar);
 
-            let order : DrinkOrder = this.orderBuilder.getOrder();
+            let order: DrinkOrder = this.orderBuilder.getOrder();
             order.canceled = this.getConfirmation(order);
 
-            this.service.save(order);
+            if(!order.canceled) {
+                order.cup.stock = order.bought_cup ? order.cup.stock - 1 : order.cup.stock;
+                sugarResource.stock_resource -= chosenSugar;
+                waterResource.stock_resource -= order.cup.size;
 
-        }catch (e) {
+                this.service.updateStock(order.cup);
+                this.service.updateStock(sugarResource);
+                this.service.updateStock(sugarResource);
+            }
+
+            this.service.save(order);
+        } catch (e) {
             console.log(e.message);
             console.log("Stopping the order.");
             return;
         }
-
     }
 
     /**
