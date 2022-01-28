@@ -135,17 +135,21 @@ export class OrderController {
 
                 connection = await createConnection();
 
+                let databaseUpdates = [];
+
                 if(!order.canceled) {
                     order.cup.stock = order.bought_cup ? order.cup.stock - 1 : order.cup.stock;
                     sugarResource.stock_resource -= chosenSugar;
                     waterResource.stock_resource -= order.cup.size;
 
-                    this.service.updateStock(order.cup);
-                    this.service.updateStock(sugarResource);
-                    this.service.updateStock(waterResource);
+                    databaseUpdates.push(this.service.updateCupStock(order.cup));
+                    databaseUpdates.push(this.service.updateResourceStock(sugarResource));
+                    databaseUpdates.push(this.service.updateResourceStock(waterResource));
                 }
 
-                this.service.save(order);
+                databaseUpdates.push(this.service.save(order));
+
+                await Promise.all(databaseUpdates);
 
                 await connection.close();
                 resolve(order);

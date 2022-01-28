@@ -3,7 +3,7 @@ import {Drink} from "../entity/Drink";
 import {Cup} from "../entity/Cup";
 import {Resource} from "../entity/Resource";
 import {DrinkOrder} from "../entity/DrinkOrder";
-import {getConnection, Connection} from "typeorm";
+import {getConnection, Connection, UpdateResult} from "typeorm";
 
 /**
  * @interface
@@ -36,36 +36,33 @@ export class TypeORMService implements IService {
     /**
      * @inheritDoc IService#save
      */
-    public save(drinkOrder: DrinkOrder): void {
-        this.getServiceConnection().manager.save<DrinkOrder>(drinkOrder);
+    public save(drinkOrder: DrinkOrder): Promise<DrinkOrder> {
+        return this.getServiceConnection().manager.save<DrinkOrder>(drinkOrder);
     }
 
     /**
      * Update the quantity of a cup resource.
      * @param cup The cup to update.
      */
-    public updateStock(cup: Cup): void;
+    public updateCupStock(cup : Cup): Promise<UpdateResult> {
+        return this.getServiceConnection()
+            .createQueryBuilder()
+            .update(Cup)
+            .set({stock: cup.stock})
+            .where("id = :id", {id: cup.id})
+            .execute();
+    }
     /**
      * Update the quantity of a drink resource like sugar or water.
      * @param resource The resource to update.
      */
-    public updateStock(resource: Resource): void;
-    public updateStock(obj: Cup | Resource): void {
-        if (obj instanceof Cup) {
-            this.getServiceConnection()
-                .createQueryBuilder()
-                .update(Cup)
-                .set({stock: obj.stock})
-                .where("id = :id", {id: obj.id})
-                .execute();
-        } else if (obj instanceof Resource) {
-            this.getServiceConnection()
-                .createQueryBuilder()
-                .update(Resource)
-                .set({stock_resource: obj.stock_resource})
-                .where("id = :id", {id: obj.id})
-                .execute();
-        }
+    public updateResourceStock(resource : Resource): Promise<UpdateResult> {
+        return this.getServiceConnection()
+            .createQueryBuilder()
+            .update(Resource)
+            .set({stock_resource: resource.stock_resource})
+            .where("id = :id", {id: resource.id})
+            .execute();
     }
 
     private getServiceConnection() : Connection{

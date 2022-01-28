@@ -2,6 +2,7 @@ import {Drink} from "../entity/Drink";
 import {Cup} from "../entity/Cup";
 import {Resource} from "../entity/Resource";
 import {DrinkOrder} from "../entity/DrinkOrder";
+import {UpdateResult} from "typeorm";
 
 /**
  * Interface for the service layer. Used to access the database.
@@ -30,17 +31,17 @@ export interface IService {
      * Save a drink order to the database.
      * @param drinkOrder The order to save.
      */
-    save(drinkOrder : DrinkOrder): void;
+    save(drinkOrder : DrinkOrder): Promise<DrinkOrder>;
 
     /**
      * Update the quantity of a cup resource.
      * @param cup The cup to update.
      */
-    updateStock(cup: Cup): void;
+    updateCupStock(cup : Cup): Promise<UpdateResult>;
 
     /**
      * Update the quantity of a drink resource like sugar or water.
      * @param resource The resource to update.
      */
-    updateStock(resource: Resource): void;
+    updateResourceStock(resource : Resource): Promise<UpdateResult>;
 }
