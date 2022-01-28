@@ -16,7 +16,7 @@ import {Cup} from "../src/entity/Cup";
 import {Resource} from "../src/entity/Resource";
 import {DrinkOrder} from "../src/entity/DrinkOrder";
 
-describe("OrderController", () => {
+describe("OrderController", function () {
     let controller : OrderController;
     let service : SinonStubbedInstance<IService>;
     let view : ConsoleView;
@@ -35,8 +35,8 @@ describe("OrderController", () => {
         sinon.restore();
     });
 
-    describe("getDrinkSelection", () => {
-        it("Should return the correct drink when a correct number is entered given a filled list", () => {
+    describe("getDrinkSelection", function () {
+        it("Should return the correct drink when a correct number is entered given a filled list", function () {
             let drink = new Drink();
             drink.id = 0;
             drink.name = "Test drink";
@@ -57,7 +57,7 @@ describe("OrderController", () => {
             viewMock.verify();
         });
 
-        it("Should throw an exception when given an empty list", () => {
+        it("Should throw an exception when given an empty list", function () {
             viewMock.expects("choiceQuestion").never();
 
             assert.throws(() => { controller.getDrinkSelection([]) });
@@ -65,7 +65,7 @@ describe("OrderController", () => {
             viewMock.verify();
         });
 
-        it("Should throw an exception when given an uninitialized list", () => {
+        it("Should throw an exception when given an uninitialized list", function () {
             viewMock.expects("choiceQuestion").never();
 
             assert.throws(() => { controller.getDrinkSelection(null) });
@@ -75,7 +75,7 @@ describe("OrderController", () => {
     });
 
     describe("getSizeSelection", function () {
-        it("Should return the correct cup when a correct number is entered given a filled list", () => {
+        it("Should return the correct cup when a correct number is entered given a filled list", function () {
             let cup1 = new Cup();
             cup1.id = 0;
             cup1.stock = 10;
@@ -95,7 +95,7 @@ describe("OrderController", () => {
         });
 
 
-        it("Should throw an exception when no cup is available", () => {
+        it("Should throw an exception when no cup is available", function () {
             viewMock.expects("choiceQuestion").never();
 
             assert.throws(() => { controller.getSizeSelection([]); })
@@ -103,7 +103,7 @@ describe("OrderController", () => {
             viewMock.verify();
         });
 
-        it("Should throw an exception when cup list is uninitialized", () => {
+        it("Should throw an exception when cup list is uninitialized", function () {
             viewMock.expects("choiceQuestion").never();
 
             assert.throws(() => { controller.getSizeSelection(null); })
@@ -113,7 +113,7 @@ describe("OrderController", () => {
     });
 
     describe("getSugarSelection", () => {
-        it("Should return the correct sugar quantity when a correct number is entered given a filled list", () => {
+        it("Should return the correct sugar quantity when a correct number is entered given a filled list", function () {
             let sugar = new Resource();
             sugar.id = 0;
             sugar.name_resource = "Sugar";
@@ -126,7 +126,7 @@ describe("OrderController", () => {
             viewMock.verify();
         });
 
-        it("Should throw an exception when the given resource is not sugar", () => {
+        it("Should throw an exception when the given resource is not sugar", function () {
             let water = new Resource();
             water.id = 0;
             water.name_resource = "Water";
@@ -139,7 +139,7 @@ describe("OrderController", () => {
             viewMock.verify();
         });
 
-        it("Should throw an exception when the given resource in uninitialized", () => {
+        it("Should throw an exception when the given resource in uninitialized", function () {
             viewMock.expects("choiceQuestion").never();
 
             assert.throws(() => { controller.getSugarSelection(null); });
@@ -147,7 +147,7 @@ describe("OrderController", () => {
             viewMock.verify();
         });
 
-        it("Should return 0 when no sugar available", () => {
+        it("Should return 0 when no sugar available", function () {
             let sugar = new Resource();
             sugar.id = 0;
             sugar.name_resource = "Sugar";
