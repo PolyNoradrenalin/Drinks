@@ -27,24 +27,24 @@ describe("OrderBuilder", function (){
 
     describe("setDrink", function () {
 
-        it("should set the drink", function () {
+        it("Should set the drink", function () {
             let drink = new Drink();
             drink.name = "Test";
-            orderBuilder.setDrink(drink);
+            orderBuilder.drink = drink;
             assert.equal(orderBuilder.getOrder().drink, drink);
         });
 
-        it("should throw an error if the drink is null", function () {
+        it("Should throw an error if the drink is null", function () {
             let drink = null;
             assert.throws(() => {
-                orderBuilder.setDrink(drink);
+                orderBuilder.drink = drink;
             });
         });
 
-        it("should throw an error if the drink is undefined", function () {
+        it("Should throw an error if the drink is undefined", function () {
             let drink;
             assert.throws(() => {
-                orderBuilder.setDrink(drink);
+                orderBuilder.drink = drink;
             });
         });
 
@@ -53,23 +53,23 @@ describe("OrderBuilder", function (){
 
     describe("setCup", function () {
 
-        it("should set the cup", function () {
+        it("Should set the cup", function () {
             let cup = new Cup();
-            orderBuilder.setCup(cup);
+            orderBuilder.cup = cup;
             assert.equal(orderBuilder.getOrder().cup, cup);
         });
 
-        it("should throw an error if the cup is null", function () {
+        it("Should throw an error if the cup is null", function () {
             let cup = null;
             assert.throws(() => {
-                orderBuilder.setCup(cup);
+                orderBuilder.cup = cup;
             });
         });
 
-        it("should throw an error if the cup is undefined", function () {
+        it("Should throw an error if the cup is undefined", function () {
             let cup;
             assert.throws(() => {
-                orderBuilder.setCup(cup);
+                orderBuilder.cup = cup;
             });
         });
 
@@ -78,7 +78,7 @@ describe("OrderBuilder", function (){
 
     describe("setCupChoice", function () {
 
-        it("should set the cup choice boolean", function () {
+        it("Should set the cup choice boolean", function () {
             let cupChoice = true;
             orderBuilder.setCupChoice(cupChoice);
             assert.equal(orderBuilder.getOrder().bought_cup, cupChoice);
@@ -88,14 +88,14 @@ describe("OrderBuilder", function (){
             assert.equal(orderBuilder.getOrder().bought_cup, cupChoice);
         });
 
-        it("should throw an error if the choice is null", function () {
+        it("Should throw an error if the choice is null", function () {
             let cupChoice = null;
             assert.throws(() => {
                 orderBuilder.setCupChoice(cupChoice);
             });
         });
 
-        it("should throw an error if the choice is undefined", function () {
+        it("Should throw an error if the choice is undefined", function () {
             let cupChoice;
             assert.throws(() => {
                 orderBuilder.setCupChoice(cupChoice);
@@ -107,34 +107,34 @@ describe("OrderBuilder", function (){
 
     describe("setSugarChoice", function () {
 
-        it("should set the sugar amount", function () {
+        it("Should set the sugar amount", function () {
             let sugar = 2;
             orderBuilder.setSugarChoice(sugar);
             assert.equal(orderBuilder.getOrder().sugarAmount, sugar);
         });
 
-        it("should throw an error if the amount is above 5", function () {
+        it("Should throw an error if the amount is above 5", function () {
             let sugar = 6;
             assert.throws(() => {
                 orderBuilder.setSugarChoice(sugar);
             });
         });
 
-        it("should throw an error if the amount is below 0", function () {
+        it("Should throw an error if the amount is below 0", function () {
             let sugar = -1;
             assert.throws(() => {
                 orderBuilder.setSugarChoice(sugar);
             });
         });
 
-        it("should throw an error if the cup is null", function () {
+        it("Should throw an error if the cup is null", function () {
             let sugar = null;
             assert.throws(() => {
                 orderBuilder.setSugarChoice(sugar);
             });
         });
 
-        it("should throw an error if the cup is undefined", function () {
+        it("Should throw an error if the cup is undefined", function () {
             let sugar;
             assert.throws(() => {
                 orderBuilder.setSugarChoice(sugar);
@@ -145,26 +145,33 @@ describe("OrderBuilder", function (){
 
 
     describe("getOrder", function () {
+        let drink = new Drink();
+        drink.name = "Test";
+        let cup = new Cup();
+        let cupChoice = true;
+        let sugar = 2;
 
-        it("should return the order", function () {
-            let drink = new Drink();
-            drink.name = "Test";
-            orderBuilder.setDrink(drink);
-
-            let cup = new Cup();
-            orderBuilder.setCup(cup);
-
-            let cupChoice = true;
+        it("Should return the order", function () {
+            orderBuilder.drink = drink;
+            orderBuilder.cup = cup;
             orderBuilder.setCupChoice(cupChoice);
-
-            let sugar = 2;
             orderBuilder.setSugarChoice(sugar);
 
             let order = orderBuilder.getOrder();
 
+            assert.notEqual(order, null);
+            assert.equal(order.cup, cup);
+            assert.equal(order.bought_cup, cupChoice);
+            assert.equal(order.drink, drink);
+            assert.equal(order.sugarAmount, sugar);
         });
 
-    });
+        it("Should return two different orders when getting the result two times", function () {
+            let order1 = orderBuilder.getOrder();
+            let order2 = orderBuilder.getOrder();
 
+            assert.ok(order1 !== order2);
+        });
+    });
 });
 
