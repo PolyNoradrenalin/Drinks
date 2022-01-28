@@ -16,11 +16,6 @@ describe("setDrink", function () {
     let orderBuilder: OrderBuilder;
     beforeEach(function () {
         orderBuilder = new OrderBuilder();
-        consoleStub = sinon.stub(console, "log");
-    });
-
-    afterEach(function () {
-        consoleStub.restore();
     });
 
     it("should set the drink", function () {
@@ -52,11 +47,6 @@ describe("setCup", function () {
 
     beforeEach(function () {
         orderBuilder = new OrderBuilder();
-        consoleStub = sinon.stub(console, "log");
-    });
-
-    afterEach(function () {
-        consoleStub.restore();
     });
 
     it("should set the cup", function () {
@@ -87,11 +77,6 @@ describe("setCupChoice", function () {
 
     beforeEach(function () {
         orderBuilder = new OrderBuilder();
-        consoleStub = sinon.stub(console, "log");
-    });
-
-    afterEach(function () {
-        consoleStub.restore();
     });
 
     it("should set the cup choice boolean", function () {
@@ -126,11 +111,6 @@ describe("setSugarChoice", function () {
 
     beforeEach(function () {
         this.orderBuilder = new OrderBuilder();
-        consoleStub = sinon.stub(console, "log");
-    });
-
-    afterEach(function () {
-        consoleStub.restore();
     });
 
     it("should set the sugar amount", function () {
@@ -175,16 +155,24 @@ describe("getOrder", function () {
 
     beforeEach(function () {
         orderBuilder = new OrderBuilder();
-        consoleStub = sinon.stub(console, "log");
-    });
-
-    afterEach(function () {
-        consoleStub.restore();
     });
 
     it("should return the order", function () {
-        //NOT implemented yet
-        throw new Error("Not implemented yet");
+        let drink = new Drink();
+        drink.name = "Test";
+        orderBuilder.setDrink(drink);
+
+        let cup = new Cup();
+        orderBuilder.setCup(cup);
+
+        let cupChoice = true;
+        orderBuilder.setCupChoice(cupChoice);
+
+        let sugar = 2;
+        orderBuilder.setSugarChoice(sugar);
+
+        let order = orderBuilder.getOrder();
+
     });
 
 });

@@ -13,11 +13,21 @@ export class OrderBuilder {
     private drinkOrder : DrinkOrder;
 
     /**
+     * Constructor
+     */
+    constructor() {
+        this.drinkOrder = new DrinkOrder();
+    }
+
+    /**
      * Sets the drink of the order
      * @param drink The drink to use
      */
     public setDrink(drink : Drink) {
-        throw new Error("Not Implemented");
+        if(drink == null) {
+            throw new Error("Drink cannot be null");
+        }
+        this.drinkOrder.drink = drink;
     }
 
     /**
@@ -25,7 +35,10 @@ export class OrderBuilder {
      * @param cup The cup to use
      */
     public setCup(cup : Cup) {
-        throw new Error("Not Implemented");
+        if(cup == null) {
+            throw new Error("Cup cannot be null");
+        }
+        this.drinkOrder.cup = cup;
     }
 
     /**
@@ -33,8 +46,10 @@ export class OrderBuilder {
      * @param wantsCup True if the order is using a cup, false otherwise
      */
     public setCupChoice(wantsCup : boolean) {
-        throw new Error("Not Implemented");
-
+        if(wantsCup == null) {
+            throw new Error("Cup choice cannot be null");
+        }
+        this.drinkOrder.bought_cup = wantsCup;
     }
 
     /**
@@ -42,15 +57,24 @@ export class OrderBuilder {
      * @param sugarCount The amount of sugar to use
      */
     public setSugarChoice(sugarCount : number) {
-        throw new Error("Not Implemented");
-
+        if(sugarCount == null) {
+            throw new Error("Sugar count cannot be null");
+        }
+        if(sugarCount < 0) {
+            throw new Error("Sugar count cannot be negative");
+        }
+        if(sugarCount > 5) {
+            throw new Error("Sugar count cannot be greater than 5");
+        }
+        this.drinkOrder.sugarAmount = sugarCount;
     }
+
 
     /**
      * Get a new DrinkOrder object
      * @returns {DrinkOrder} The new DrinkOrder object built
      */
     public getOrder() : DrinkOrder {
-        throw new Error("Not Implemented");
+        return this.drinkOrder;
     }
 }
