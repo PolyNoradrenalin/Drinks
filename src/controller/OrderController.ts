@@ -161,9 +161,11 @@ export class OrderController {
 
                 await Promise.all(databaseUpdates);
 
+                this.view.displayMessage("Order complete! We hope to see you soon!\n");
+
                 resolve(order);
             } catch (e) {
-                reject("A fatal error has occurred : " + e.message + "\nPlease contact your administrator.");
+                reject("An error has occurred : " + e.message + "\nPlease contact your administrator.");
             }
         });
     }
