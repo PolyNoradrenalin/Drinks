@@ -12,6 +12,17 @@ import {ConsoleView} from "../view/view";
 export class OrderController {
 
     /**
+     * The maximum sugar level allowed to the user (inclusive).
+     */
+    public readonly MAXIMUM_SUGAR : number = 5;
+
+    /**
+     * The unit to display to the user for the sugar quantity.
+     * @private
+     */
+    private readonly SUGAR_UNIT : string = "g";
+
+    /**
      * The service used to handle the database.
      */
     private service : IService
@@ -20,7 +31,6 @@ export class OrderController {
      * The view used by the controller to interact with the user.
      */
     private view : ConsoleView;
-
     /**
      * The builder used to build the final order.
      */
@@ -97,10 +107,27 @@ export class OrderController {
     /**
      * Get the amount of sugar to add to the drink.
      * @param sugar Resource object of sugar.
+     * @param max Maximum sugar level allowed
      * @returns {number} The amount of sugar to add.
      */
-    public getSugarChoice(sugar : Resource) : number {
-        throw new Error("Not Implemented");
+    public getSugarSelection(sugar : Resource, max : number = this.MAXIMUM_SUGAR) : number {
+        if (sugar == null)
+            throw new Error("Sugar resource is uninitialized.");
+
+        if (sugar.name_resource.toLowerCase() !== "sugar")
+            throw new Error("Given resource (" + sugar.name_resource + ") is not sugar.");
+
+        if (sugar.stock_resource === 0) {
+            this.view.displayMessage("There's no sugar left in the machine, you will be able to cancel the order at the end.");
+            return 0;
+        }
+
+        let choices = new Map<string, number>();
+        for (let s = 0; s <= max; s++) {
+            choices.set(s + this.SUGAR_UNIT, s);
+        }
+
+        return this.view.choiceQuestion("What sugar level do you want ?", choices);
     }
 
     /**
