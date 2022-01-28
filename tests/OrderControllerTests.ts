@@ -12,8 +12,9 @@ import {IService} from "../src/service/IService";
 import {ConsoleView} from "../src/view/view";
 import {SinonMock, SinonStubbedInstance} from "sinon";
 import {describe} from "mocha";
+import {Cup} from "../src/entity/Cup";
 
-describe("OrderController unit tests", () => {
+describe("OrderController", () => {
     let controller : OrderController;
     let service : SinonStubbedInstance<IService>;
     let view : ConsoleView;
@@ -30,8 +31,8 @@ describe("OrderController unit tests", () => {
         sinon.restore();
     });
 
-    describe("getDrinkSelection", function () {
-        it("Should return the correct drink when a correct number is entered given a filled list", function () {
+    describe("getDrinkSelection", () => {
+        it("Should return the correct drink when a correct number is entered given a filled list", () => {
             let drink = new Drink();
             drink.id = 0;
             drink.name = "Test drink";
@@ -52,7 +53,7 @@ describe("OrderController unit tests", () => {
             viewMock.verify();
         });
 
-        it("Should throw an exception when given an empty list", function () {
+        it("Should throw an exception when given an empty list", () => {
             viewMock.expects("choiceQuestion").never();
 
             assert.throws(() => { controller.getDrinkSelection([]) });
@@ -60,7 +61,7 @@ describe("OrderController unit tests", () => {
             viewMock.verify();
         });
 
-        it("Should throw an exception when given an uninitialized list", function () {
+        it("Should throw an exception when given an uninitialized list", () => {
             viewMock.expects("choiceQuestion").never();
 
             assert.throws(() => { controller.getDrinkSelection(null) });
@@ -70,6 +71,40 @@ describe("OrderController unit tests", () => {
     });
 
     describe("getSizeSelection", function () {
+        it("Should return the correct cup when a correct number is entered given a filled list", () => {
+            let cup1 = new Cup();
+            cup1.id = 0;
+            cup1.stock = 10;
+            cup1.price = 2;
 
+            let cup2 = new Cup();
+            cup2.id = 1;
+            cup2.stock = 5;
+            cup2.price = 3;
+
+            viewMock.expects("choiceQuestion").once().returns(cup2);
+
+            let choice = controller.getSizeSelection([cup1, cup2]);
+
+            assert.equal(choice, cup2);
+            viewMock.verify();
+        });
+
+
+        it("Should throw an exception when no cup is available", () => {
+            viewMock.expects("choiceQuestion").never();
+
+            assert.throws(() => { controller.getSizeSelection([]); })
+
+            viewMock.verify();
+        });
+
+        it("Should throw an exception when cup list is uninitialized", () => {
+            viewMock.expects("choiceQuestion").never();
+
+            assert.throws(() => { controller.getSizeSelection(null); })
+
+            viewMock.verify();
+        });
     });
 })
