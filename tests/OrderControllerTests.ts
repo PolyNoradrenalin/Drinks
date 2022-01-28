@@ -299,7 +299,8 @@ describe("OrderController", function () {
             mockController.expects("getSugarSelection").returns(5);
             mockController.expects("getConfirmation").returns(true);
 
-            serviceMock.expects("updateStock").exactly(3);
+            serviceMock.expects("updateCupStock").exactly(1);
+            serviceMock.expects("updateResourceStock").exactly(2);
             serviceMock.expects("save").once();
 
             await controller.startOrder();
@@ -351,7 +352,8 @@ describe("OrderController", function () {
                         mockController.expects("getConfirmation").returns(true);
                     }
 
-                    serviceMock.expects("updateStock").never();
+                    serviceMock.expects("updateCupStock").never();
+                    serviceMock.expects("updateResourceStock").never();
                     serviceMock.expects("save").never();
 
                     controller.startOrder().then(() => {
@@ -371,7 +373,8 @@ describe("OrderController", function () {
             mockController.expects("getSugarSelection").returns(5);
             mockController.expects("getConfirmation").returns(true);
 
-            serviceMock.expects("updateStock").exactly(3);
+            serviceMock.expects("updateCupStock").exactly(1);
+            serviceMock.expects("updateResourceStock").exactly(2);
             serviceMock.expects("save").once();
 
             let order = await controller.startOrder();
@@ -389,7 +392,8 @@ describe("OrderController", function () {
             mockController.expects("getSugarSelection").exactly(10).returns(5).onCall(9).returns(2);
             mockController.expects("getConfirmation").returns(true);
 
-            serviceMock.expects("updateStock").exactly(3);
+            serviceMock.expects("updateCupStock").exactly(1);
+            serviceMock.expects("updateResourceStock").exactly(2);
             serviceMock.expects("save").once();
 
             await controller.startOrder();
