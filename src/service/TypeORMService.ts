@@ -3,6 +3,7 @@ import {Drink} from "../entity/Drink";
 import {Cup} from "../entity/Cup";
 import {Resource} from "../entity/Resource";
 import {DrinkOrder} from "../entity/DrinkOrder";
+import {getConnection, Connection} from "typeorm";
 
 /**
  * @interface
@@ -14,48 +15,60 @@ export class TypeORMService implements IService {
     /**
      * @inheritDoc IService#getAllDrinks
      */
-    public getAllDrinks(): Drink[] {
-        throw new Error("Not Implemented");
+    public getAllDrinks(): Promise<Drink[]> {
+        return this.getServiceConnection().manager.find(Drink);
     }
 
     /**
      * @inheritDoc IService#getAllCups
      */
-    public getAllCups(): Cup[] {
-        throw new Error("Not Implemented");
+    public getAllCups(): Promise<Cup[]> {
+        return this.getServiceConnection().manager.find(Cup);
     }
 
     /**
      * @inheritDoc IService#getAllResources
      */
-    public getAllResources(): Resource[] {
-        throw new Error("Not Implemented");
+    public getAllResources(): Promise<Resource[]> {
+        return this.getServiceConnection().manager.find(Resource);
     }
 
     /**
      * @inheritDoc IService#save
      */
     public save(drinkOrder: DrinkOrder): void {
-        throw new Error("Not Implemented");
+        this.getServiceConnection().manager.save<DrinkOrder>(drinkOrder);
     }
 
     /**
      * Update the quantity of a cup resource.
      * @param cup The cup to update.
      */
-    public update(cup: Cup): void;
+    public updateStock(cup: Cup): void;
     /**
      * Update the quantity of a drink resource like sugar or water.
      * @param resource The resource to update.
      */
-    public update(resource: Resource): void;
-    public update(obj: Cup | Resource): void {
-        throw new Error("Not Implemented");
+    public updateStock(resource: Resource): void;
+    public updateStock(obj: Cup | Resource): void {
         if (obj instanceof Cup) {
-            console.log('update cup');
+            this.getServiceConnection()
+                .createQueryBuilder()
+                .update(Cup)
+                .set({stock: obj.stock})
+                .where("id = :id", {id: obj.id})
+                .execute();
         } else if (obj instanceof Resource) {
-            console.log('update resource');
+            this.getServiceConnection()
+                .createQueryBuilder()
+                .update(Resource)
+                .set({stock_resource: obj.stock_resource})
+                .where("id = :id", {id: obj.id})
+                .execute();
         }
     }
 
+    private getServiceConnection() : Connection{
+        return getConnection();
+    }
 }
