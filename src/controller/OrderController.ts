@@ -68,7 +68,6 @@ export class OrderController {
     public async startOrder(): Promise<DrinkOrder> {
 
         return new Promise(async (resolve, reject) => {
-            let connection = await createConnection();
             let drinkPromise = this.service.getAllDrinks();
             let cupsPromise = this.service.getAllCups();
             let resourcesPromise = this.service.getAllResources();
@@ -76,8 +75,6 @@ export class OrderController {
             let promise = Promise.all([drinkPromise, cupsPromise, resourcesPromise]);
 
             let result = await promise;
-
-            await connection.close();
 
             let drinks: Drink[] = result[0];
             let cups: Cup[] = result[1];
@@ -145,8 +142,6 @@ export class OrderController {
                 let order: DrinkOrder = this.orderBuilder.getOrder();
                 order.canceled = !this.getConfirmation(order);
 
-                connection = await createConnection();
-
                 let databaseUpdates = [];
 
                 if(!order.canceled) {
@@ -163,7 +158,6 @@ export class OrderController {
 
                 await Promise.all(databaseUpdates);
 
-                await connection.close();
                 resolve(order);
             } catch (e) {
                 reject();
