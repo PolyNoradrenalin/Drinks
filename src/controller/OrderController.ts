@@ -78,6 +78,21 @@ export class OrderController {
 
             let drinks: Drink[] = result[0];
             let cups: Cup[] = result[1];
+
+            if (cups.length === 0) {
+                let cup33 = new Cup();
+                cup33.size = 35;
+                cup33.stock = 0;
+                cup33.price = .10;
+                await this.service.saveCup(cup33);
+
+                let cup75 = new Cup();
+                cup75.size = 75;
+                cup75.stock = 0;
+                cup75.price = .20;
+                await this.service.saveCup(cup75);
+            }
+
             let resource: Resource[] = result[2];
             let sugarResource = resource.find(r => r.name_resource.toLowerCase() === "sugar");
             let waterResource = resource.find(r => r.name_resource.toLowerCase() === "water");

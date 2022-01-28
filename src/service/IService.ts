@@ -40,6 +40,12 @@ export interface IService {
     saveResource(resource : Resource): Promise<Resource>;
 
     /**
+     * Saves a cup to the database.
+     * @param cup Cup to be saved.
+     */
+    saveCup(cup : Cup): Promise<Cup>;
+
+    /**
      * Update the quantity of a cup resource.
      * @param cup The cup to update.
      */
