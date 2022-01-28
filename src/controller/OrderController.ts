@@ -71,9 +71,17 @@ export class OrderController {
                 chosenDrink = this.getDrinkSelection(drinks);
                 this.orderBuilder.drink = chosenDrink;
 
-                // TODO: check for water remaining in DB
-                chosenCupSize = this.getSizeSelection(cups);
-                this.orderBuilder.cup = chosenCupSize;
+
+            // Remove cups with a size greater than the amount in waterResource
+            for(let i = 0; i < cups.length; i++) {
+                if (waterResource.stock_resource < cups[i].size) {
+                    cups.splice(i, 1);
+                    i--;
+                }
+            }
+
+            chosenCupSize = this.getSizeSelection(cups);
+            this.orderBuilder.cup = chosenCupSize;
 
 
                 if(chosenCupSize.stock === 0) {

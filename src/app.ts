@@ -33,7 +33,7 @@ createConnection().then(async connection => {
     order.cup = c;
     // Calculates the price of the order.
     // In the future this should be calculated automatically in the model.
-    order.price = order.bought_cup ? d.price - c.price : d.price;
+    order.price = order.bought_cup ? d.price * c.size - c.price : d.price * c.size;
 
     await connection.manager.save(order);
 
