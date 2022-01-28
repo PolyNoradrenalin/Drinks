@@ -16,7 +16,7 @@ export class OrderBuilder {
      * Sets the drink of the order
      * @param drink The drink to use
      */
-    public set drink(drink : Drink) {
+    public setDrink(drink : Drink) {
         if(drink == null) {
             throw new Error("Drink cannot be null");
         }
@@ -27,7 +27,7 @@ export class OrderBuilder {
      * Sets the cup size used in the order
      * @param cup The cup to use
      */
-    public set cup(cup : Cup) {
+    public setCup(cup : Cup) {
         if(cup == null) {
             throw new Error("Cup cannot be null");
         }
