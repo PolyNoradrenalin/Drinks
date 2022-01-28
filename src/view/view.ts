@@ -74,4 +74,11 @@ export class ConsoleView {
             throw new Error("Invalid option");
         }
     }
+
+    public displayMessage(message: string) {
+        if(message == null || message.length == 0) {
+            throw new Error("No message");
+        }
+        console.log(greenColor + message + resetColor);
+    }
 }

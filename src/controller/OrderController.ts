@@ -84,7 +84,14 @@ export class OrderController {
      * @returns {boolean} True if we want to use a cup, false otherwise or if there's not any cup left.
      */
     public getCupChoice(cup : Cup) : boolean {
-        throw new Error("Not Implemented");
+        if(cup == null)
+            throw new Error("Cup is null.");
+        if(cup.stock <= 0){
+            this.view.displayMessage("There's no cup left for this size, defaulting to \"using my own cup\".");
+            return false;
+        }
+
+        return this.view.yesNoQuestion("Do you want to use a cup ?");
     }
 
     /**

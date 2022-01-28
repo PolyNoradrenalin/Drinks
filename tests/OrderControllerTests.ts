@@ -107,4 +107,53 @@ describe("OrderController", () => {
             viewMock.verify();
         });
     });
+
+
+    describe("getCupChoice", function () {
+        let view;
+        let controller;
+        let consoleStub;
+        beforeEach(function () {
+            view = sinon.createStubInstance(ConsoleView);
+            controller = new OrderController(null, view);
+            consoleStub = sinon.stub(console, "log");
+        });
+
+        afterEach(function () {
+            sinon.restore();
+        });
+
+        it("Should return true when the user enters 'y' and there is enough cups", function () {
+
+            view.yesNoQuestion.returns(true);
+            let cup = new Cup();
+            cup.stock = 10;
+            assert.equal(controller.getCupChoice(cup), true);
+        });
+
+        it("Should return false when the user enters 'n' and there is enough cups", function () {
+            view.yesNoQuestion.returns(false);
+            let cup = new Cup();
+            cup.stock = 10;
+            assert.equal(controller.getCupChoice(cup), false);
+        });
+
+        it("Should return false when there isn't enough cups", function () {
+            view.yesNoQuestion.returns(true);
+            let cup = new Cup();
+            cup.stock = 0;
+            assert.equal(controller.getCupChoice(cup), false);
+        });
+
+        it("Should throw an exception if cup is null", function () {
+            assert.throws(() => { controller.getCupChoice(null) });
+        });
+
+    })
+
+
 })
+
+
+
+
