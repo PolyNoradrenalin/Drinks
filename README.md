@@ -19,7 +19,7 @@ Then you can launch the app using the following command:
 
 `npm t` will launch all tests.
 
-`npm coverage` will generate an html file with code coverage.
+`npm run coverage` will generate an html file with code coverage.
 
 ## Initial configuration
 
