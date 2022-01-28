@@ -112,7 +112,7 @@ describe("OrderController", () => {
         });
     });
 
-    describe("getSugarChoice", () => {
+    describe("getSugarSelection", () => {
         it("Should return the correct sugar quantity when a correct number is entered given a filled list", () => {
             let sugar = new Resource();
             sugar.id = 0;
@@ -120,7 +120,7 @@ describe("OrderController", () => {
             sugar.stock_resource = 30;
 
             viewMock.expects("choiceQuestion").once().returns(5);
-            let choice = controller.getSugarChoice(sugar);
+            let choice = controller.getSugarSelection(sugar);
 
             assert.equal(choice, 5);
             viewMock.verify();
@@ -134,7 +134,7 @@ describe("OrderController", () => {
 
             viewMock.expects("choiceQuestion").never();
 
-            assert.throws(() => { controller.getSugarChoice(water); });
+            assert.throws(() => { controller.getSugarSelection(water); });
 
             viewMock.verify();
         });
@@ -142,12 +142,24 @@ describe("OrderController", () => {
         it("Should throw an exception when the given resource in uninitialized", () => {
             viewMock.expects("choiceQuestion").never();
 
-            assert.throws(() => { controller.getSugarChoice(null); });
+            assert.throws(() => { controller.getSugarSelection(null); });
 
             viewMock.verify();
         });
 
-        //TODO: Maybe we should test the maximum value of sugar
+        it("Should return 0 when no sugar available", () => {
+            let sugar = new Resource();
+            sugar.id = 0;
+            sugar.name_resource = "Sugar";
+            sugar.stock_resource = 0;
+
+            viewMock.expects("displayMessage").once();
+
+            let choice = controller.getSugarSelection(sugar);
+
+            assert.equal(choice, 0);
+            viewMock.verify();
+        });
     });
 
 
