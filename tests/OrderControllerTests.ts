@@ -10,7 +10,7 @@ import {OrderController} from "../src/controller/OrderController";
 import {TypeORMService} from "../src/service/TypeORMService";
 import {IService} from "../src/service/IService";
 import {ConsoleView} from "../src/view/view";
-import {SinonMock, SinonStubbedInstance} from "sinon";
+import {SinonMock} from "sinon";
 import {describe} from "mocha";
 import {Cup} from "../src/entity/Cup";
 import {Resource} from "../src/entity/Resource";
@@ -18,7 +18,8 @@ import {DrinkOrder} from "../src/entity/DrinkOrder";
 
 describe("OrderController", function () {
     let controller : OrderController;
-    let service : SinonStubbedInstance<IService>;
+    let service : IService;
+    let serviceMock : SinonMock;
     let view : ConsoleView;
     let viewMock : SinonMock;
     let consoleStub
@@ -26,7 +27,8 @@ describe("OrderController", function () {
     beforeEach(function () {
         view = new ConsoleView();
         viewMock = sinon.mock(view);
-        service = sinon.createStubInstance(TypeORMService);
+        service = new TypeORMService();
+        serviceMock = sinon.mock(service);
         controller = new OrderController(service, view);
         consoleStub = sinon.stub(console, "log");
     });
@@ -240,8 +242,125 @@ describe("OrderController", function () {
         });
     });
 
+    describe("startOrder", function () {
+        let drink = new Drink();
+        drink.id = 0;
+        drink.name = "Testy drink";
+        drink.content = "This is a very testy drink";
+        drink.price = 10;
+
+        let drink1 = new Drink();
+        drink1.id = 1;
+        drink1.name = "Lilianx drink's";
+        drink1.content = "Rehydrating !";
+        drink1.price = 15;
+
+        let cup35 = new Cup();
+        cup35.id = 0;
+        cup35.size = 35;
+        cup35.stock = 10;
+
+        let cup75 = new Cup();
+        cup75.id = 0;
+        cup75.size = 75;
+        cup75.stock = 5;
+
+        let sugar = new Resource();
+        sugar.id = 0;
+        sugar.stock_resource = 50;
+        sugar.name_resource = "Sugar";
+
+        let water = new Resource();
+        water.id = 0;
+        water.stock_resource = 800;
+        water.name_resource = "Water";
+
+        let mockController;
+
+        beforeEach(function () {
+            serviceMock.expects("getAllDrinks").returns(new Promise<Drink[]>((resolve) => resolve([drink, drink1])));
+            serviceMock.expects("getAllCups").returns(new Promise<Cup[]>((resolve) => resolve([cup35, cup75])));
+            serviceMock.expects("getAllResources").returns(new Promise<Resource[]>((resolve) => resolve([sugar, water])));
+            mockController = sinon.mock(controller);
+        });
+
+        afterEach(function () {
+            mockController.restore();
+            serviceMock.restore();
+        });
+
+        it("Should confirm the order given correct answers", async function () {
+            mockController.expects("getDrinkSelection").returns(drink1);
+            mockController.expects("getSizeSelection").returns(cup35);
+            mockController.expects("getCupChoice").returns(true);
+            mockController.expects("getSugarSelection").returns(5);
+            mockController.expects("getConfirmation").returns(true);
+
+            serviceMock.expects("updateStock").exactly(3);
+            serviceMock.expects("save").once();
+
+            await controller.startOrder();
+
+            serviceMock.verify();
+        });
+
+        describe("Should cancel the order when the user asked to", async function() {
+
+            const values = [
+                { args: [true, false, false, false, false] },
+                { args: [false, true, false, false, false] },
+                { args: [false, false, true, false, false] },
+                { args: [false, false, false, true, false] },
+                { args: [false, false, false, false, true] }
+            ];
+
+
+            values.forEach((args, index) => {
+                it(index.toString(), async function() {
+
+                    if (args[0]) {
+                        mockController.expects("getDrinkSelection").throws(new Error());
+                    } else {
+                        mockController.expects("getDrinkSelection").returns(drink1);
+                    }
+
+                    if (args[1]) {
+                        mockController.expects("getSizeSelection").throws(new Error());
+                    } else {
+                        mockController.expects("getSizeSelection").returns(cup35);
+                    }
+
+                    if (args[2]) {
+                        mockController.expects("getCupChoice").throws(new Error());
+                    } else {
+                        mockController.expects("getCupChoice").returns(true);
+                    }
+
+                    if (args[3]) {
+                        mockController.expects("getSugarSelection").throws(new Error());
+                    } else {
+                        mockController.expects("getSugarSelection").returns(5);
+                    }
+
+                    if (args[4]) {
+                        mockController.expects("getConfirmation").throws(new Error());
+                    } else {
+                        mockController.expects("getConfirmation").returns(true);
+                    }
+
+                    serviceMock.expects("updateStock").never();
+                    serviceMock.expects("save").never();
+
+                    controller.startOrder().then(() => {
+                        throw new Error("Should reject");
+                    }).catch(() => {
+                        serviceMock.verify();
+                    });
+
+                });
+            });
+        });
+
+
+    });
 })
-
-
-
-
