@@ -259,11 +259,13 @@ describe("OrderController", function () {
         cup35.id = 0;
         cup35.size = 35;
         cup35.stock = 10;
+        cup35.price = .10;
 
         let cup75 = new Cup();
         cup75.id = 0;
         cup75.size = 75;
         cup75.stock = 5;
+        cup75.price = .10;
 
         let sugar = new Resource();
         sugar.id = 0;

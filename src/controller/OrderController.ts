@@ -69,7 +69,7 @@ export class OrderController {
 
             try {
                 chosenDrink = this.getDrinkSelection(drinks);
-                this.orderBuilder.drink = chosenDrink;
+                this.orderBuilder.setDrink(chosenDrink);
 
                 // Remove cups with a size greater than the amount in waterResource
                 for(let i = 0; i < cups.length; i++) {
@@ -80,7 +80,7 @@ export class OrderController {
                 }
 
                 chosenCupSize = this.getSizeSelection(cups);
-                this.orderBuilder.cup = chosenCupSize;
+                this.orderBuilder.setCup(chosenCupSize);
 
 
                 if(chosenCupSize.stock === 0) {

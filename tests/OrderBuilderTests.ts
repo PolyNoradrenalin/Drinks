@@ -9,9 +9,7 @@ const assert = require("assert");
 
 import { OrderBuilder } from "../src/controller/OrderBuilder";
 import {Cup} from "../src/entity/Cup";
-
-
-
+import {stub} from "sinon";
 
 describe("OrderBuilder", function (){
     let consoleStub;
@@ -30,21 +28,22 @@ describe("OrderBuilder", function (){
         it("Should set the drink", function () {
             let drink = new Drink();
             drink.name = "Test";
-            orderBuilder.drink = drink;
-            assert.equal(orderBuilder.getOrder().drink, drink);
+            drink.price = 0.5;
+            orderBuilder.setDrink(drink);
+            assert.equal(orderBuilder.drink, drink);
         });
 
         it("Should throw an error if the drink is null", function () {
             let drink = null;
             assert.throws(() => {
-                orderBuilder.drink = drink;
+                orderBuilder.setDrink(drink);
             });
         });
 
         it("Should throw an error if the drink is undefined", function () {
             let drink;
             assert.throws(() => {
-                orderBuilder.drink = drink;
+                orderBuilder.setDrink(drink);
             });
         });
 
@@ -55,21 +54,22 @@ describe("OrderBuilder", function (){
 
         it("Should set the cup", function () {
             let cup = new Cup();
-            orderBuilder.cup = cup;
-            assert.equal(orderBuilder.getOrder().cup, cup);
+            cup.price = 0.5;
+            orderBuilder.setCup(cup);
+            assert.equal(orderBuilder.cup, cup);
         });
 
         it("Should throw an error if the cup is null", function () {
             let cup = null;
             assert.throws(() => {
-                orderBuilder.cup = cup;
+                orderBuilder.setCup(cup);
             });
         });
 
         it("Should throw an error if the cup is undefined", function () {
             let cup;
             assert.throws(() => {
-                orderBuilder.cup = cup;
+                orderBuilder.setCup(cup);
             });
         });
 
@@ -81,11 +81,11 @@ describe("OrderBuilder", function (){
         it("Should set the cup choice boolean", function () {
             let cupChoice = true;
             orderBuilder.setCupChoice(cupChoice);
-            assert.equal(orderBuilder.getOrder().bought_cup, cupChoice);
+            assert.equal(orderBuilder.wantsCup, cupChoice);
 
             cupChoice = false;
             orderBuilder.setCupChoice(cupChoice);
-            assert.equal(orderBuilder.getOrder().bought_cup, cupChoice);
+            assert.equal(orderBuilder.wantsCup, cupChoice);
         });
 
         it("Should throw an error if the choice is null", function () {
@@ -110,7 +110,7 @@ describe("OrderBuilder", function (){
         it("Should set the sugar amount", function () {
             let sugar = 2;
             orderBuilder.setSugarChoice(sugar);
-            assert.equal(orderBuilder.getOrder().sugarAmount, sugar);
+            assert.equal(orderBuilder.sugarAmount, sugar);
         });
 
         it("Should throw an error if the amount is above 5", function () {
@@ -147,13 +147,16 @@ describe("OrderBuilder", function (){
     describe("getOrder", function () {
         let drink = new Drink();
         drink.name = "Test";
+        drink.price = 0.5;
         let cup = new Cup();
+        cup.price = 0.5;
+        cup.size = 33;
         let cupChoice = true;
         let sugar = 2;
 
         it("Should return the order", function () {
-            orderBuilder.drink = drink;
-            orderBuilder.cup = cup;
+            orderBuilder.setDrink(drink);
+            orderBuilder.setCup(cup);
             orderBuilder.setCupChoice(cupChoice);
             orderBuilder.setSugarChoice(sugar);
 
@@ -167,6 +170,11 @@ describe("OrderBuilder", function (){
         });
 
         it("Should return two different orders when getting the result two times", function () {
+            orderBuilder.setDrink(drink);
+            orderBuilder.setCup(cup);
+            orderBuilder.setCupChoice(cupChoice);
+            orderBuilder.setSugarChoice(sugar);
+
             let order1 = orderBuilder.getOrder();
             let order2 = orderBuilder.getOrder();
 
