@@ -93,7 +93,7 @@ describe("ConsoleView", function() {
         it("Should return a number when a number is written", function () {
             readLineSync.question.returns("2");
             let result : number = view.choiceQuestion<number>("What do you want?", this.randomstrings);
-            assert.equal(result, this.randomstrings[1]);
+            assert.equal(result, this.randomstrings.get("numero2"));
         });
 
         it("Should throw an error when null options are given", function () {
