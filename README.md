@@ -20,3 +20,9 @@ Then you can launch the app using the following command:
 `npm t` will launch all tests.
 
 `npm coverage` will generate an html file with code coverage.
+
+## Initial configuration
+
+After the first startup, the tables are created in the database and cups, sugar and water entries with no stock are added if they do not already exist.
+Next, you have manually edit the database to increase the stock for these items.
+You also have manually add some drinks so that you can order one.
