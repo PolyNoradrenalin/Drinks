@@ -14,18 +14,21 @@ import {SinonMock, SinonStubbedInstance} from "sinon";
 import {describe} from "mocha";
 import {Cup} from "../src/entity/Cup";
 import {Resource} from "../src/entity/Resource";
+import {DrinkOrder} from "../src/entity/DrinkOrder";
 
 describe("OrderController", () => {
     let controller : OrderController;
     let service : SinonStubbedInstance<IService>;
     let view : ConsoleView;
     let viewMock : SinonMock;
+    let consoleStub
 
     beforeEach(function () {
         view = new ConsoleView();
         viewMock = sinon.mock(view);
         service = sinon.createStubInstance(TypeORMService);
         controller = new OrderController(service, view);
+        consoleStub = sinon.stub(console, "log");
     });
 
     afterEach(function () {
@@ -150,7 +153,6 @@ describe("OrderController", () => {
 
     describe("getCupChoice", function () {
         it("Should return true when the user enters 'y' and there is enough cups", function () {
-
             viewMock.expects("yesNoQuestion").once().returns(true);
             let cup = new Cup();
             cup.stock = 10;
@@ -174,8 +176,54 @@ describe("OrderController", () => {
         it("Should throw an exception if cup is null", function () {
             assert.throws(() => { controller.getCupChoice(null) });
         });
+
+        it("Should throw an exception if the answer is invalid", function () {
+            viewMock.expects("yesNoQuestion").once().throws(new Error("Invalid answer"));
+            let cup = new Cup();
+            cup.stock = 10;
+            assert.throws(() => { controller.getCupChoice(cup) });
+        });
+
+    })
+
+
+    describe("getConfirmation", function () {
+        let order: DrinkOrder;
+        beforeEach(function () {
+            order = new DrinkOrder();
+            order.drink = new Drink();
+            order.drink.name = "Test Drink";
+            order.drink.price = 2;
+            order.cup = new Cup();
+            order.cup.price = 1;
+            order.sugarAmount = 0;
+        });
+
+        afterEach(function () {
+            sinon.restore();
+        });
+
+        it("Should return true when the user enters 'y'", function () {
+            viewMock.expects("yesNoQuestion").once().returns(true);
+            assert.equal(controller.getConfirmation(order), true);
+        });
+
+        it("Should return false when the user enters 'n'", function () {
+            viewMock.expects("yesNoQuestion").once().returns(false);
+            assert.equal(controller.getConfirmation(order), false);
+        });
+
+        it("Should throw an exception if the user enters an invalid input", function () {
+            viewMock.expects("yesNoQuestion").once().throws(new Error("Invalid answer"));
+            assert.throws(() => { controller.getConfirmation(order) });
+        });
+
+        it("Should throw an exception if order is null", function () {
+            assert.throws(() => { controller.getConfirmation(null) });
+        });
     });
-});
+
+})
 
 
 

@@ -110,6 +110,15 @@ export class OrderController {
      * @returns {boolean} True if we want to confirm the order, false otherwise.
      */
     public getConfirmation(order : DrinkOrder) : boolean {
-        throw new Error("Not Implemented");
+        if(order == null)
+            throw new Error("Order is null.");
+
+        this.view.displayMessage("Here's a summary of your order :");
+        this.view.displayMessage("Drink : " + order.drink.name);
+        this.view.displayMessage("Size : " + order.cup.size);
+        this.view.displayMessage("Buying a cup : " + (order.bought_cup ? "Yes" : "No"));
+        this.view.displayMessage("Sugar : " + order.sugarAmount);
+
+        return this.view.yesNoQuestion("Do you want to confirm your order ?");
     }
 }
