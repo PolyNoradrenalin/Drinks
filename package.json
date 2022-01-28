@@ -7,7 +7,7 @@
       "start": "ts-node src/app.ts",
       "test": "mocha -r ts-node/register tests/**/*.ts",
       "menuTest": "ts-node src/view/view.ts",
-      "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
+      "coverage": "nyc -r lcov -e .ts -x tests/*.ts npm run test"
    },
    "repository": {
       "type": "git",
