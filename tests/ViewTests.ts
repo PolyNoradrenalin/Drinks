@@ -96,6 +96,15 @@ describe("ConsoleView", function() {
             assert.equal(result, this.randomstrings[1]);
         });
 
+        it("Should throw an error when null options are given", function () {
+            assert.throws( ()=> view.choiceQuestion<number>("What do you want?", null), Error);
+        });
+
+        it("Should throw an error when no options are given", function () {
+            readLineSync.question.returns("2");
+            assert.throws( ()=> view.choiceQuestion<number>("What do you want?", new Map<string, number>()), Error);
+        });
+
         it("Should throw an error when a wrong command is written", function () {
             readLineSync.question.returns("Hello");
             assert.throws(() => view.choiceQuestion<number>("What do you want?", this.randomstrings), Error);
