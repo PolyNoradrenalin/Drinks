@@ -5,6 +5,7 @@ import {Resource} from "../entity/Resource";
 import {OrderBuilder} from "./OrderBuilder";
 import {DrinkOrder} from "../entity/DrinkOrder";
 import {ConsoleView} from "../view/view";
+import {createConnection} from "typeorm";
 
 /**
  * Controller used to handle a drink order.
@@ -44,7 +45,7 @@ export class OrderController {
     /**
      * Waits for the user to type 'start' to begin an order.
      */
-    public async previewScreen() {
+    public previewScreen() {
         let options = new Map<string, boolean>();
         options.set("start", true);
 
@@ -67,18 +68,23 @@ export class OrderController {
     public async startOrder(): Promise<DrinkOrder> {
 
         return new Promise(async (resolve, reject) => {
+            let connection = await createConnection();
             let drinkPromise = this.service.getAllDrinks();
             let cupsPromise = this.service.getAllCups();
             let resourcesPromise = this.service.getAllResources();
 
+
             let promise = Promise.all([drinkPromise, cupsPromise, resourcesPromise]);
 
             let result = await promise;
+
+            await connection.close();
+
             let drinks: Drink[] = result[0];
             let cups: Cup[] = result[1];
             let resource: Resource[] = result[2];
-            let sugarResource = resource.find(r => r.name_resource === "Sugar");
-            let waterResource = resource.find(r => r.name_resource === "Water");
+            let sugarResource = resource.find(r => r.name_resource.toLowerCase() === "sugar");
+            let waterResource = resource.find(r => r.name_resource.toLowerCase() === "water");
 
             let chosenDrink: Drink;
             let chosenCupSize: Cup;
@@ -91,7 +97,7 @@ export class OrderController {
                 chosenDrink = this.getDrinkSelection(drinks);
                 this.orderBuilder.setDrink(chosenDrink);
 
-                let availableCups = this.getAvailableDrinks(cups, waterResource.stock_resource);
+                let availableCups = this.getAvailableCups(cups, waterResource.stock_resource);
 
                 chosenCupSize = this.getSizeSelection(availableCups);
                 this.orderBuilder.setCup(chosenCupSize);
@@ -127,6 +133,8 @@ export class OrderController {
                 let order: DrinkOrder = this.orderBuilder.getOrder();
                 order.canceled = !this.getConfirmation(order);
 
+                connection = await createConnection();
+
                 if(!order.canceled) {
                     order.cup.stock = order.bought_cup ? order.cup.stock - 1 : order.cup.stock;
                     sugarResource.stock_resource -= chosenSugar;
@@ -138,6 +146,8 @@ export class OrderController {
                 }
 
                 this.service.save(order);
+
+                await connection.close();
                 resolve(order);
             } catch (e) {
                 reject();
@@ -254,7 +264,7 @@ export class OrderController {
      * @param cups All cups
      * @param waterLevel Water level of the machine
      */
-    public getAvailableDrinks(cups : Cup[], waterLevel : number) : Cup[] {
+    public getAvailableCups(cups : Cup[], waterLevel : number) : Cup[] {
         let availableCups = [];
 
         // Remove cups with a size greater than the amount in waterResource

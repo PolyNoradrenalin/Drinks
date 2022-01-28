@@ -401,7 +401,7 @@ describe("OrderController", function () {
         it("Should only give the available drinks given the water level of the machine", async function () {
             let cups = await service.getAllCups();
 
-            let availableCups = controller.getAvailableDrinks(cups, 37);
+            let availableCups = controller.getAvailableCups(cups, 37);
 
             assert.equal(availableCups.length, 1);
         });

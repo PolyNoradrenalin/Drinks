@@ -17,22 +17,28 @@ export class ConsoleView {
 
         console.log(greenColor + question);
 
-        let entries = options.entries();
+        let displayEntries = options.entries();
         let i = 0;
-        let object = entries.next();
+        let displayEntry = displayEntries.next();
 
-        while (object.value[1]) {
-            console.log(i+1, " - ", object.value[0])
+        while (displayEntry.done === false) {
+            console.log(i+1, " - ", displayEntry.value[0])
             i++;
-            object = entries.next();
+            displayEntry = displayEntries.next();
         }
-
-        console.log(resetColor);
 
         let answer = readLineSync.question();
 
         if(answer >= 1 && answer <= options.size) {
-            return options.values()[answer];
+            let valueEntries = options.entries();
+            let i = 0;
+            let valueEntry = valueEntries.next();
+
+            while (valueEntry.done === false) {
+                if (i + 1 == answer) return valueEntry.value[1];
+                i++;
+                valueEntry = valueEntries.next();
+            }
         } else {
             throw new Error("Invalid option");
         }
