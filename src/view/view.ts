@@ -17,8 +17,14 @@ export class ConsoleView {
 
         console.log(greenColor + question);
 
-        for(let i = 0; i < options.size; i++) {
-            console.log(i+1 + "- " + options.keys()[i]);
+        let entries = options.entries();
+        let i = 0;
+        let object = entries.next();
+
+        while (object.value[1]) {
+            console.log(i+1, " - ", object.value[0])
+            i++;
+            object = entries.next();
         }
 
         console.log(resetColor);

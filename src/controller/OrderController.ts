@@ -42,6 +42,26 @@ export class OrderController {
     }
 
     /**
+     * Waits for the user to type 'start' to begin an order.
+     */
+    public async previewScreen() {
+        let options = new Map<string, boolean>();
+        options.set("start", true);
+
+        this.view.displayMessage("Welcome!");
+
+        let loop = true;
+
+        while (loop) {
+            try {
+                if (this.view.choiceQuestion("Type 'start' to begin an order.", options)) {
+                    loop = false;
+                }
+            } catch (e) {}
+        }
+    }
+
+    /**
      * Start the order process, getting the information using the service, then the user choices.
      */
     public async startOrder(): Promise<DrinkOrder> {
