@@ -22,25 +22,9 @@ export class OrderController {
     private view : ConsoleView;
 
     /**
-     * The list of drinks.
-     */
-    private drinks : Drink[];
-
-    /**
-     * The list of cups.
-     */
-    private cups : Cup[];
-
-    /**
-     * The list of resources.
-     */
-    private resources : Resource[];
-
-    /**
      * The builder used to build the final order.
      */
     private orderBuilder : OrderBuilder;
-
 
     constructor(service : IService, view : ConsoleView) {
         this.service = service;
@@ -56,6 +40,7 @@ export class OrderController {
 
     /**
      * Get the list of drinks and ask the view to choose one.
+     * @param drinks List of all drinks in the machine.
      * @returns {Drink} The drink chosen by the user.
      */
     public getDrinkSelection(drinks : Drink[]) : Drink {
@@ -75,31 +60,35 @@ export class OrderController {
 
     /**
      * Get the list of cup size and ask the view to choose one.
+     * @param cups List of available sizes of drinks.
      * @returns {Cup} The cup/cup size chosen by the user.
      */
-    public getSizeSelection() : Cup {
+    public getSizeSelection(cups : Cup[]) : Cup {
         throw new Error("Not Implemented");
     }
 
     /**
      * Get the choice of using a cup or not.
-     * @returns {boolean} True if we want to use a cup, false otherwise.
+     * @param cup Chosen size for the drink.
+     * @returns {boolean} True if we want to use a cup, false otherwise or if there's not any cup left.
      */
-    public getCupChoice() : boolean {
+    public getCupChoice(cup : Cup) : boolean {
         throw new Error("Not Implemented");
     }
 
     /**
      * Get the amount of sugar to add to the drink.
+     * @param sugar Resource object of sugar.
      * @returns {number} The amount of sugar to add.
      */
-    public getSugarChoice() : number {
+    public getSugarChoice(sugar : Resource) : number {
         throw new Error("Not Implemented");
     }
 
     /**
      * Gets the choice of confirming or cancelling the order.
-     * This will also check if the given order is correct (all fields are correct)
+     * This will also check if the given order is correct
+     * @param order The order waiting for the confirmation (all fields except the confirmation state are correct)
      * @returns {boolean} True if we want to confirm the order, false otherwise.
      */
     public getConfirmation(order : DrinkOrder) : boolean {
