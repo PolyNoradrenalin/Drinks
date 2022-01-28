@@ -75,12 +75,32 @@ export class OrderController {
                 chosenCupSize = this.getSizeSelection(cups);
                 this.orderBuilder.cup = chosenCupSize;
 
-                // TODO check for cup stock remaining in DB
-                chosenCup = this.getCupChoice(chosenCupSize);
+
+                if(chosenCupSize.stock === 0) {
+                    this.view.displayMessage("No more cups left in stock for this size");
+                    this.view.displayMessage("Defaulting to using no cup, cancel at the end if you need to.");
+                    chosenCup = false;
+                }else{
+                    chosenCup = this.getCupChoice(chosenCupSize);
+                }
                 this.orderBuilder.setCupChoice(chosenCup);
 
-                // TODO: check for sugar remaining in DB
-                chosenSugar = this.getSugarSelection(sugarResource);
+                if(sugarResource.stock_resource === 0) {
+                    this.view.displayMessage("No more sugar left in stock");
+                    this.view.displayMessage("Defaulting to using no sugar, cancel at the end if you need to.");
+                    chosenSugar = 0;
+                }else {
+                    let correct = false;
+                    do {
+                        chosenSugar = this.getSugarSelection(sugarResource);
+                        if (chosenSugar > sugarResource.stock_resource) {
+                            this.view.displayMessage("The maximum sugar level is " + sugarResource.stock_resource + ". Please try again");
+                        } else {
+                            correct = true;
+                        }
+                    } while (!correct);
+                }
+
                 this.orderBuilder.setSugarChoice(chosenSugar);
 
                 let order: DrinkOrder = this.orderBuilder.getOrder();
