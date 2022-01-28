@@ -26,7 +26,7 @@ describe("DrinkOrder", () => {
             drinkOrder.sugarAmount = 1;
         });
 
-        it("should return true if drink order is valid", () => {
+        it("Should return true if drink order is valid", () => {
             assert.equal(drinkOrder.isValid(), true);
         });
 

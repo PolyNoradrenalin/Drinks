@@ -45,7 +45,39 @@ export class OrderController {
      * Start the order process, getting the information using the service, then the user choices.
      */
     public startOrder() : void {
-        throw new Error("Not Implemented");
+        let drinks : Drink[] = this.service.getAllDrinks();
+        let cups : Cup[] = this.service.getAllCups();
+        let resource : Resource = this.service.getAllResources().find(r => r.name_resource === "Sugar");
+
+        let chosenDrink : Drink;
+        let chosenCupSize : Cup;
+        let chosenSugar : number;
+        let chosenCup : boolean;
+        this.orderBuilder = new OrderBuilder();
+        try{
+            chosenDrink = this.getDrinkSelection(drinks);
+            this.orderBuilder.setDrink(chosenDrink);
+
+            chosenCupSize = this.getSizeSelection(cups);
+            this.orderBuilder.setCup(chosenCupSize);
+
+            chosenCup = this.getCupChoice(chosenCupSize);
+            this.orderBuilder.setCupChoice(chosenCup);
+
+            chosenSugar = this.getSugarSelection(resource , 5);
+            this.orderBuilder.setSugarChoice(chosenSugar);
+
+            let order : DrinkOrder = this.orderBuilder.getOrder();
+            order.canceled = this.getConfirmation(order);
+
+            this.service.save(order);
+
+        }catch (e) {
+            console.log(e.message);
+            console.log("Stopping the order.");
+            return;
+        }
+
     }
 
     /**
