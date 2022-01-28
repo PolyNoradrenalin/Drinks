@@ -44,7 +44,7 @@ export class OrderController {
     /**
      * Start the order process, getting the information using the service, then the user choices.
      */
-    public async startOrder(): Promise<void> {
+    public async startOrder(): Promise<DrinkOrder> {
 
         return new Promise(async (resolve, reject) => {
             let drinkPromise = this.service.getAllDrinks();
@@ -99,7 +99,7 @@ export class OrderController {
                 }
 
                 this.service.save(order);
-                resolve();
+                resolve(order);
             } catch (e) {
                 reject();
             }

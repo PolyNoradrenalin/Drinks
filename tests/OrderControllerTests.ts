@@ -316,7 +316,7 @@ describe("OrderController", function () {
 
 
             values.forEach((args, index) => {
-                it(index.toString(), async function() {
+                it("Parameter " + (index + 1), async function() {
 
                     if (args[0]) {
                         mockController.expects("getDrinkSelection").throws(new Error());
@@ -361,6 +361,21 @@ describe("OrderController", function () {
             });
         });
 
+        it("Should reduce the price when no cup chosen", async function () {
+            mockController.expects("getDrinkSelection").returns(drink1);
+            mockController.expects("getSizeSelection").returns(cup35);
+            mockController.expects("getCupChoice").returns(false);
+            mockController.expects("getSugarSelection").returns(5);
+            mockController.expects("getConfirmation").returns(true);
 
+            serviceMock.expects("updateStock").exactly(3);
+            serviceMock.expects("save").once();
+
+            let order = await controller.startOrder();
+
+            assert.equal(order.price, drink1.price * cup35.size - cup35.price);
+
+            serviceMock.verify();
+        });
     });
 })
