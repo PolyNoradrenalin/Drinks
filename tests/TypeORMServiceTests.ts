@@ -107,15 +107,15 @@ describe("Service", function () {
         it('Should return all resources', async () => {
             entityStub.find.withArgs(Resource).returns(resourcesTest);
 
-            let resource = service.getAllCups();
+            let resource = service.getAllResources();
 
             assert.equal(resource, resourcesTest);
         })
 
         it("Should return empty list", async () => {
-            entityStub.find.withArgs(Cup).returns([]);
+            entityStub.find.withArgs(Resource).returns([]);
 
-            let resource = await service.getAllCups();
+            let resource = await service.getAllResources();
 
             assert.equal(resource.length, 0);
         })
