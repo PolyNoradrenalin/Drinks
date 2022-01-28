@@ -7,38 +7,31 @@ import {Cup} from "../entity/Cup";
  */
 export class OrderBuilder {
 
-    /**
-     * The drink order to be built
-     */
-    private drinkOrder : DrinkOrder;
-
-    /**
-     * Constructor
-     */
-    constructor() {
-        this.drinkOrder = new DrinkOrder();
-    }
+    private _drink : Drink;
+    private _cup : Cup;
+    private _wantsCup : boolean;
+    private _sugarAmount: number;
 
     /**
      * Sets the drink of the order
      * @param drink The drink to use
      */
-    public setDrink(drink : Drink) {
+    public set drink(drink : Drink) {
         if(drink == null) {
             throw new Error("Drink cannot be null");
         }
-        this.drinkOrder.drink = drink;
+        this._drink = drink;
     }
 
     /**
      * Sets the cup size used in the order
      * @param cup The cup to use
      */
-    public setCup(cup : Cup) {
+    public set cup(cup : Cup) {
         if(cup == null) {
             throw new Error("Cup cannot be null");
         }
-        this.drinkOrder.cup = cup;
+        this._cup = cup;
     }
 
     /**
@@ -49,7 +42,7 @@ export class OrderBuilder {
         if(wantsCup == null) {
             throw new Error("Cup choice cannot be null");
         }
-        this.drinkOrder.bought_cup = wantsCup;
+        this._wantsCup = wantsCup;
     }
 
     /**
@@ -66,7 +59,7 @@ export class OrderBuilder {
         if(sugarCount > 5) {
             throw new Error("Sugar count cannot be greater than 5");
         }
-        this.drinkOrder.sugarAmount = sugarCount;
+        this._sugarAmount = sugarCount;
     }
 
 
@@ -75,6 +68,12 @@ export class OrderBuilder {
      * @returns {DrinkOrder} The new DrinkOrder object built
      */
     public getOrder() : DrinkOrder {
-        return this.drinkOrder;
+        let order = new DrinkOrder();
+        order.id = 0;
+        order.drink = this._drink;
+        order.cup = this._cup;
+        order.bought_cup = this._wantsCup;
+        order.sugarAmount = this._sugarAmount;
+        return order;
     }
 }

@@ -56,10 +56,10 @@ export class OrderController {
         this.orderBuilder = new OrderBuilder();
         try{
             chosenDrink = this.getDrinkSelection(drinks);
-            this.orderBuilder.setDrink(chosenDrink);
+            this.orderBuilder.drink = chosenDrink;
 
             chosenCupSize = this.getSizeSelection(cups);
-            this.orderBuilder.setCup(chosenCupSize);
+            this.orderBuilder.cup = chosenCupSize;
 
             chosenCup = this.getCupChoice(chosenCupSize);
             this.orderBuilder.setCupChoice(chosenCup);
