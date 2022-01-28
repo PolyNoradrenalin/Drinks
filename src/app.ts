@@ -12,6 +12,10 @@ main();
 async function main() {
     while (true) {
         order_controller.previewScreen();
-        await order_controller.startOrder();
+        try {
+            await order_controller.startOrder();
+        } catch (err) {
+            console.log(err);
+        }
     }
 }

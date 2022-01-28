@@ -73,7 +73,6 @@ export class OrderController {
             let cupsPromise = this.service.getAllCups();
             let resourcesPromise = this.service.getAllResources();
 
-
             let promise = Promise.all([drinkPromise, cupsPromise, resourcesPromise]);
 
             let result = await promise;
@@ -85,6 +84,20 @@ export class OrderController {
             let resource: Resource[] = result[2];
             let sugarResource = resource.find(r => r.name_resource.toLowerCase() === "sugar");
             let waterResource = resource.find(r => r.name_resource.toLowerCase() === "water");
+
+            if (!sugarResource) {
+                let sugar = new Resource();
+                sugar.name_resource = "Sugar";
+                sugar.stock_resource = 0;
+                sugarResource = await this.service.saveResource(sugar);
+            }
+
+            if (!waterResource) {
+                let water = new Resource();
+                water.name_resource = "Water";
+                water.stock_resource = 0;
+                waterResource = await this.service.saveResource(water);
+            }
 
             let chosenDrink: Drink;
             let chosenCupSize: Cup;
@@ -101,7 +114,6 @@ export class OrderController {
 
                 chosenCupSize = this.getSizeSelection(availableCups);
                 this.orderBuilder.setCup(chosenCupSize);
-
 
                 if(chosenCupSize.stock === 0) {
                     this.view.displayMessage("No more cups left in stock for this size");

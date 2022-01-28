@@ -41,6 +41,13 @@ export class TypeORMService implements IService {
     }
 
     /**
+     * @inheritDoc IService#saveResource
+     */
+    public saveResource(resource: Resource): Promise<Resource> {
+        return this.getServiceConnection().manager.save<Resource>(resource);
+    }
+
+    /**
      * Update the quantity of a cup resource.
      * @param cup The cup to update.
      */
