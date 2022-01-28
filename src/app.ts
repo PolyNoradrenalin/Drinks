@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { OrderController } from "./controller/OrderController";
 import { TypeORMService } from "./service/TypeORMService";
 import { ConsoleView } from "./view/view";
-import {Connection, createConnection} from "typeorm";
+import {Connection, createConnection, getConnection} from "typeorm";
 
 let type_orm_service = new TypeORMService();
 let view = new ConsoleView();
@@ -19,6 +19,7 @@ async function main() {
             await conn.close();
         } catch (err) {
             console.log(err);
+            await getConnection().close();
         }
     }
 }

@@ -108,6 +108,9 @@ export class OrderController {
                 this.orderBuilder.setDrink(chosenDrink);
 
                 let availableCups = this.getAvailableCups(cups, waterResource.stock_resource);
+                if (availableCups.length === 0) {
+                    throw new Error("The machine does not have enough water to serve you a drink.");
+                }
 
                 chosenCupSize = this.getSizeSelection(availableCups);
                 this.orderBuilder.setCup(chosenCupSize);
@@ -160,7 +163,7 @@ export class OrderController {
 
                 resolve(order);
             } catch (e) {
-                reject();
+                reject("A fatal error has occurred : " + e.message + "\nPlease contact your administrator.");
             }
         });
     }
