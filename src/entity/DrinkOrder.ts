@@ -30,10 +30,10 @@ export class DrinkOrder {
     })
     public sugarAmount: number;
 
-    @ManyToOne(() => Cup, cup => cup.orders)
+    @ManyToOne(/* istanbul ignore next */(/* istanbul ignore next */) => Cup, /* istanbul ignore next */cup => cup.orders)
     public cup: Cup;
 
-    @ManyToOne(() => Drink, drink => drink.drinkOrders)
+    @ManyToOne(/* istanbul ignore next */(/* istanbul ignore next */) => Drink, /* istanbul ignore next */drink => drink.drinkOrders)
     public drink: Drink;
 
     /**

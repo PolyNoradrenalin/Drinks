@@ -21,6 +21,7 @@ export class Cup {
     @Column("int")
     public size: number;
 
-    @OneToMany(() => DrinkOrder, drinkOrderCup => drinkOrderCup.cup)
+    /* istanbul ignore next */
+    @OneToMany(/* istanbul ignore next */(/* istanbul ignore next */) => DrinkOrder, /* istanbul ignore next */drinkOrderCup => drinkOrderCup.cup)
     public orders: DrinkOrder[];
 }

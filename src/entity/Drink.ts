@@ -22,7 +22,7 @@ export class Drink {
     })
     public price: number;
 
-    @OneToMany(() => DrinkOrder, drinkOrderDrink => drinkOrderDrink.drink)
+    @OneToMany(/* istanbul ignore next */(/* istanbul ignore next */) => DrinkOrder, /* istanbul ignore next */drinkOrderDrink => drinkOrderDrink.drink)
     public drinkOrders: DrinkOrder[];
 
 }
