@@ -55,7 +55,7 @@ export class OrderController {
 
         while (loop) {
             try {
-                if (this.view.choiceQuestion("Type 'start' to begin an order.", options)) {
+                if (this.view.choiceQuestion("Select start (1) to begin an order.", options)) {
                     loop = false;
                 }
             } catch (e) {}
