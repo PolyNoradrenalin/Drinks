@@ -280,6 +280,8 @@ describe("OrderController", function () {
         let mockController;
 
         beforeEach(function () {
+            sugar.stock_resource = 50;
+            water.stock_resource = 800;
             serviceMock.expects("getAllDrinks").returns(new Promise<Drink[]>((resolve) => resolve([drink, drink1])));
             serviceMock.expects("getAllCups").returns(new Promise<Cup[]>((resolve) => resolve([cup35, cup75])));
             serviceMock.expects("getAllResources").returns(new Promise<Resource[]>((resolve) => resolve([sugar, water])));
@@ -378,5 +380,30 @@ describe("OrderController", function () {
 
             serviceMock.verify();
         });
+
+        it("Should ask the user while he gives a wrong sugar level", async function () {
+            sugar.stock_resource = 2;
+            mockController.expects("getDrinkSelection").returns(drink1);
+            mockController.expects("getSizeSelection").returns(cup35);
+            mockController.expects("getCupChoice").returns(false);
+            mockController.expects("getSugarSelection").exactly(10).returns(5).onCall(9).returns(2);
+            mockController.expects("getConfirmation").returns(true);
+
+            serviceMock.expects("updateStock").exactly(3);
+            serviceMock.expects("save").once();
+
+            await controller.startOrder();
+
+            assert.equal(sugar.stock_resource, 0);
+            serviceMock.verify();
+        });
+
+        it("Should only give the available drinks given the water level of the machine", async function () {
+            let cups = await service.getAllCups();
+
+            let availableCups = controller.getAvailableDrinks(cups, 37);
+
+            assert.equal(availableCups.length, 1);
+        });
     });
-})
+});

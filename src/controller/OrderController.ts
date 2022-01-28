@@ -91,15 +91,9 @@ export class OrderController {
                 chosenDrink = this.getDrinkSelection(drinks);
                 this.orderBuilder.setDrink(chosenDrink);
 
-                // Remove cups with a size greater than the amount in waterResource
-                for(let i = 0; i < cups.length; i++) {
-                    if (waterResource.stock_resource < cups[i].size) {
-                        cups.splice(i, 1);
-                        i--;
-                    }
-                }
+                let availableCups = this.getAvailableDrinks(cups, waterResource.stock_resource);
 
-                chosenCupSize = this.getSizeSelection(cups);
+                chosenCupSize = this.getSizeSelection(availableCups);
                 this.orderBuilder.setCup(chosenCupSize);
 
 
@@ -253,5 +247,23 @@ export class OrderController {
         this.view.displayMessage("Sugar : " + order.sugarAmount);
 
         return this.view.yesNoQuestion("Do you want to confirm your order ?");
+    }
+
+    /**
+     * Returns a filtered list of all available cup
+     * @param cups All cups
+     * @param waterLevel Water level of the machine
+     */
+    public getAvailableDrinks(cups : Cup[], waterLevel : number) : Cup[] {
+        let availableCups = [];
+
+        // Remove cups with a size greater than the amount in waterResource
+        for(let i = 0; i < cups.length; i++) {
+            if (waterLevel >= cups[i].size) {
+                availableCups.push(cups[i]);
+            }
+        }
+
+        return availableCups;
     }
 }
