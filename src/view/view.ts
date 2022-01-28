@@ -52,7 +52,7 @@ export class ConsoleView {
      * @throws Error if the answer is not yes or no (y or n)
      */
     public yesNoQuestion(question: string): boolean {
-        console.log(greenColor + question + resetColor);
+        console.log(greenColor + question + "(y/n)" + resetColor);
 
         let answer = readLineSync.question();
 
