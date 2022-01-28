@@ -13,22 +13,20 @@ import {ConsoleView} from "../src/view/view";
 import {SinonMock, SinonStubbedInstance} from "sinon";
 
 describe("getDrinkSelection", function () {
-    const sandbox = sinon.createSandbox();
-
     let controller : OrderController;
-    let mockController : SinonMock;
     let service : SinonStubbedInstance<IService>;
-    let view : SinonStubbedInstance<ConsoleView>;
+    let view : ConsoleView;
+    let viewMock : SinonMock;
 
     beforeEach(function () {
-        view = sandbox.createStubInstance(ConsoleView);
-        service = sandbox.createStubInstance(TypeORMService);
+        view = new ConsoleView();
+        viewMock = sinon.mock(view);
+        service = sinon.createStubInstance(TypeORMService);
         controller = new OrderController(service, view);
-        mockController = sandbox.mock(controller);
     });
 
     afterEach(function () {
-        sandbox.restore();
+        sinon.restore();
     });
 
     it("Should return the correct drink when a correct number is entered given a filled list", function () {
@@ -44,19 +42,31 @@ describe("getDrinkSelection", function () {
         drink1.price = 20;
         drink1.content = "This is TESTY.";
 
-        view.choiceQuestion.returns(drink);
+        viewMock.expects("choiceQuestion").once().returns(drink);
 
-        assert.equal(controller.getDrinkSelection([drink, drink1]), drink);
+        let choice = controller.getDrinkSelection([drink, drink1]);
 
-        mockController.verify();
+        assert.equal(choice, drink);
+        viewMock.verify();
     });
 
     it("Should throw an exception when given an empty list", function () {
+        viewMock.expects("choiceQuestion").never();
+
         assert.throws(() => { controller.getDrinkSelection([]) });
+
+        viewMock.verify();
     });
 
     it("Should throw an exception when given an uninitialized list", function () {
+        viewMock.expects("choiceQuestion").never();
 
         assert.throws(() => { controller.getDrinkSelection(null) });
+
+        viewMock.verify();
     });
+});
+
+describe("getSizeSelection", function () {
+
 });
