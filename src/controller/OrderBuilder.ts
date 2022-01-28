@@ -78,4 +78,20 @@ export class OrderBuilder {
 
         return order;
     }
+
+    get drink(): Drink {
+        return this._drink;
+    }
+
+    get cup(): Cup {
+        return this._cup;
+    }
+
+    get wantsCup(): boolean {
+        return this._wantsCup;
+    }
+
+    get sugarAmount(): number {
+        return this._sugarAmount;
+    }
 }
