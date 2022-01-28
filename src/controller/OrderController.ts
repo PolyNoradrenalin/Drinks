@@ -64,7 +64,18 @@ export class OrderController {
      * @returns {Cup} The cup/cup size chosen by the user.
      */
     public getSizeSelection(cups : Cup[]) : Cup {
-        throw new Error("Not Implemented");
+        if (cups == null)
+            throw new Error("Cup list is uninitialized");
+
+        if (cups.length === 0)
+            throw new Error("Cup list is empty");
+
+        let choices = new Map<string, Cup>();
+        cups.forEach(cup => {
+            choices.set("Size " + cup.size, cup);
+        });
+
+        return this.view.choiceQuestion<Cup>("What cup size do you want ?", choices);
     }
 
     /**
