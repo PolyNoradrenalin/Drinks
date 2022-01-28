@@ -8,8 +8,8 @@ Project was created for our "Qualité Logiciel" class at Polytech Tours.
 
 ## How to launch
 
-You will first need to create a schema in the database.
-Next you should configure the database connection in the `ormconfig.json` file.
+You will first need to create a MySQL database with the name db_drinks.
+Next you should configure the database connection in the `ormconfig.json` file (verify the logins and database name).
 
 Then you can launch the app using the following command:
 
