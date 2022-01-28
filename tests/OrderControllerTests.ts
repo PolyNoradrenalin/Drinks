@@ -225,6 +225,11 @@ describe("OrderController", function () {
             assert.equal(controller.getConfirmation(order), false);
         });
 
+        it("Should throw an exception if the order is invalid", function () {
+            sinon.stub(order, "isValid").returns(false);
+            assert.throws(() => { controller.getConfirmation(order) });
+        });
+
         it("Should throw an exception if the user enters an invalid input", function () {
             viewMock.expects("yesNoQuestion").once().throws(new Error("Invalid answer"));
             assert.throws(() => { controller.getConfirmation(order) });

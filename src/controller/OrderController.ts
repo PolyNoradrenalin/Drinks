@@ -140,6 +140,9 @@ export class OrderController {
         if(order == null)
             throw new Error("Order is null.");
 
+        if(!order.isValid())
+            throw new Error("Order is not valid.");
+
         this.view.displayMessage("Here's a summary of your order :");
         this.view.displayMessage("Drink : " + order.drink.name);
         this.view.displayMessage("Size : " + order.cup.size);

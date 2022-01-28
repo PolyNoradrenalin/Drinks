@@ -35,4 +35,26 @@ export class DrinkOrder {
 
     @ManyToOne(() => Drink, drink => drink.drinkOrders)
     public drink: Drink;
+
+    /**
+     * Checks if the drink order is valid.
+     * if drink, cup, sugarAmount and bought_cup are set, the drink order is valid.
+     * @returns {boolean} true if the drink order is valid, false otherwise.
+     */
+    public isValid() {
+        if(this.cup === undefined || this.drink === undefined) {
+            return false;
+        }
+        if(this.cup === null || this.drink === null) {
+            return false;
+        }
+        if(this.sugarAmount < 0 || this.sugarAmount > 5) {
+            return false;
+        }
+        if(this.price < 0 || this.drink.price < 0 || this.cup.price < 0) {
+            return false;
+        }
+
+        return true;
+    }
 }
